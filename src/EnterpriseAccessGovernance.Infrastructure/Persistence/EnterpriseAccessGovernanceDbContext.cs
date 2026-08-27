@@ -49,6 +49,9 @@ public sealed class EnterpriseAccessGovernanceDbContext
     public DbSet<ImportError> ImportErrors =>
         Set<ImportError>();
 
+    public DbSet<CertificationReviewAudit> CertificationReviewAudits =>
+        Set<CertificationReviewAudit>();
+
     protected override void OnModelCreating(
         ModelBuilder modelBuilder)
     {

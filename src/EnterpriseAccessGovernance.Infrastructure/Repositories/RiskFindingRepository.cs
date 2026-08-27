@@ -112,7 +112,35 @@ public sealed class RiskFindingRepository
                 .AsQueryable();
 
         // -------------------------------------------------
-        // Filters
+        // Search
+        // Employee name
+        // Employee Id
+        // Rule code
+        // Description
+        // -------------------------------------------------
+
+        if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+        {
+            var searchTerm =
+                query.SearchTerm.Trim();
+
+            findings = findings.Where(x =>
+                x.RuleCode.Contains(searchTerm) ||
+                x.Description.Contains(searchTerm) ||
+                (
+                    x.Employee != null &&
+                    (
+                        (
+                            x.Employee.FirstName +
+                            " " +
+                            x.Employee.LastName
+                        ).Contains(searchTerm)
+                    )
+                ) || x.EmployeeId.ToString().Contains(searchTerm));
+        }
+
+        // -------------------------------------------------
+        // Severity
         // -------------------------------------------------
 
         if (!string.IsNullOrWhiteSpace(query.Severity) &&
@@ -125,6 +153,10 @@ public sealed class RiskFindingRepository
                 x.Severity == severity);
         }
 
+        // -------------------------------------------------
+        // Status
+        // -------------------------------------------------
+
         if (!string.IsNullOrWhiteSpace(query.Status) &&
             Enum.TryParse<Domain.Enums.RiskStatus>(
                 query.Status,
@@ -134,6 +166,10 @@ public sealed class RiskFindingRepository
             findings = findings.Where(x =>
                 x.Status == status);
         }
+
+        // -------------------------------------------------
+        // Exact Rule Code filter
+        // -------------------------------------------------
 
         if (!string.IsNullOrWhiteSpace(query.RuleCode))
         {
@@ -146,6 +182,10 @@ public sealed class RiskFindingRepository
                 x.RuleCode == ruleCode);
         }
 
+        // -------------------------------------------------
+        // Employee filter
+        // -------------------------------------------------
+
         if (query.EmployeeId.HasValue)
         {
             findings = findings.Where(x =>
@@ -153,7 +193,7 @@ public sealed class RiskFindingRepository
         }
 
         // -------------------------------------------------
-        // Count
+        // Count BEFORE pagination
         // -------------------------------------------------
 
         var totalCount =
@@ -188,13 +228,17 @@ public sealed class RiskFindingRepository
 
                     Description = x.Description,
 
-                    Severity = x.Severity.ToString(),
+                    Severity =
+                        x.Severity.ToString(),
 
-                    Status = x.Status.ToString(),
+                    Status =
+                        x.Status.ToString(),
 
-                    DetectedAtUtc = x.DetectedAtUtc,
+                    DetectedAtUtc =
+                        x.DetectedAtUtc,
 
-                    ResolvedAtUtc = x.ResolvedAtUtc
+                    ResolvedAtUtc =
+                        x.ResolvedAtUtc
                 })
                 .ToListAsync(cancellationToken);
 

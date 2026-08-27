@@ -4,6 +4,7 @@ using EnterpriseAccessGovernance.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EnterpriseAccessGovernance.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(EnterpriseAccessGovernanceDbContext))]
-    partial class EnterpriseAccessGovernanceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260827221406_AddCertificationReviewAudit")]
+    partial class AddCertificationReviewAudit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
