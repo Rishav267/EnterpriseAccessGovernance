@@ -1,294 +1,681 @@
+/* =========================================================
+   Page
+   ========================================================= */
+
 .risk-management-page {
-padding: 24px;
+  padding: 28px 32px;
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
+
+/* =========================================================
+   Header
+   ========================================================= */
+
 .page-header {
-margin-bottom: 24px;
+  margin-bottom: 24px;
 }
 
 .page-header h2 {
-margin: 0 0 8px;
+  margin: 0 0 6px;
+
+  font-size: 26px;
+  line-height: 32px;
+  font-weight: 650;
+
+  color: #111827;
 }
 
 .page-header p {
-margin: 0;
-opacity: 0.7;
+  margin: 0;
+
+  font-size: 14px;
+  line-height: 21px;
+
+  color: #6b7280;
 }
 
+
+/* =========================================================
+   Filters
+   ========================================================= */
+
 .filters-card {
-display: flex;
-align-items: flex-end;
-gap: 16px;
-flex-wrap: wrap;
+  display: flex;
+  align-items: flex-end;
 
-margin-bottom: 24px;
-padding: 20px;
+  gap: 16px;
 
-border: 1px solid #e5e7eb;
-border-radius: 8px;
+  flex-wrap: wrap;
+
+  margin-bottom: 24px;
+  padding: 18px 20px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
 }
 
 .filter-group {
-display: flex;
-flex-direction: column;
-gap: 6px;
-min-width: 160px;
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+
+  min-width: 170px;
 }
 
 .search-filter {
-flex: 1;
-min-width: 250px;
+  flex: 1;
+
+  min-width: 280px;
 }
 
 .filter-group label,
 .page-size label {
-font-size: 13px;
-font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+
+  font-weight: 600;
+
+  color: #374151;
 }
 
 .filter-group input,
 .filter-group select,
 .page-size select {
-min-height: 38px;
-padding: 8px 10px;
+  height: 38px;
 
-border: 1px solid #d1d5db;
-border-radius: 6px;
+  padding: 0 11px;
+
+  background: #ffffff;
+
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+
+  color: #111827;
+
+  font-size: 13px;
+
+  outline: none;
 }
 
+.filter-group input {
+  width: 100%;
+}
+
+.filter-group input:focus,
+.filter-group select:focus,
+.page-size select:focus {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 2px rgba(37, 99, 235, 0.08);
+}
+
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+
 .filter-actions {
-display: flex;
-gap: 8px;
+  display: flex;
+  gap: 8px;
 }
 
 .primary-button,
 .secondary-button,
 .resolve-button,
 .ignore-button {
-min-height: 38px;
-padding: 8px 14px;
+  height: 36px;
 
-border-radius: 6px;
-cursor: pointer;
+  padding: 0 14px;
+
+  border-radius: 6px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    opacity 0.15s ease;
 }
 
 .primary-button {
-border: none;
+  border: 1px solid #2563eb;
+
+  background: #2563eb;
+
+  color: #ffffff;
+}
+
+.primary-button:hover {
+  background: #1d4ed8;
 }
 
 .secondary-button {
-background: transparent;
-border: 1px solid #d1d5db;
+  border: 1px solid #d1d5db;
+
+  background: #ffffff;
+
+  color: #374151;
 }
 
+.secondary-button:hover:not(:disabled) {
+  background: #f9fafb;
+}
+
+.primary-button:disabled,
+.secondary-button:disabled,
+.resolve-button:disabled,
+.ignore-button:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   State Messages
+   ========================================================= */
+
 .state-message {
-padding: 48px 24px;
-text-align: center;
+  padding: 48px 24px;
+
+  text-align: center;
+
+  font-size: 14px;
+
+  color: #6b7280;
 }
 
 .state-message.error {
-color: #b91c1c;
+  color: #b91c1c;
 }
+
+
+/* =========================================================
+   Table Card
+   ========================================================= */
 
 .table-card {
-border: 1px solid #e5e7eb;
-border-radius: 8px;
-overflow: hidden;
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
 }
 
+
+/* =========================================================
+   Table Header
+   ========================================================= */
+
 .table-header {
-display: flex;
-align-items: center;
-justify-content: space-between;
+  display: flex;
 
-gap: 16px;
-padding: 18px 20px;
+  align-items: center;
+  justify-content: space-between;
 
-border-bottom: 1px solid #e5e7eb;
+  gap: 20px;
+
+  padding: 18px 20px;
+
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .table-header h3 {
-margin: 0 0 4px;
+  margin: 0 0 4px;
+
+  font-size: 16px;
+  line-height: 22px;
+
+  font-weight: 650;
+
+  color: #111827;
 }
 
 .table-header p {
-margin: 0;
-font-size: 14px;
-opacity: 0.7;
+  margin: 0;
+
+  font-size: 13px;
+
+  color: #6b7280;
 }
 
 .page-size {
-display: flex;
-align-items: center;
-gap: 8px;
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
 }
 
+.page-size select {
+  width: 70px;
+}
+
+
+/* =========================================================
+   Table
+   ========================================================= */
+
 .table-wrapper {
-overflow-x: auto;
+  width: 100%;
+
+  overflow-x: auto;
 }
 
 table {
-width: 100%;
-border-collapse: collapse;
+  width: 100%;
+
+  min-width: 1100px;
+
+  table-layout: fixed;
+
+  border-collapse: collapse;
 }
+
+
+/* =========================================================
+   Column Widths
+   ========================================================= */
+
+.employee-column {
+  width: 18%;
+}
+
+.rule-column {
+  width: 13%;
+}
+
+.description-column {
+  width: 25%;
+}
+
+.severity-column {
+  width: 11%;
+}
+
+.status-column {
+  width: 11%;
+}
+
+.detected-column {
+  width: 11%;
+}
+
+.actions-column {
+  width: 11%;
+}
+
+
+/* =========================================================
+   Table Header / Cells
+   ========================================================= */
 
 th,
 td {
-padding: 14px 16px;
-text-align: left;
-vertical-align: middle;
+  padding: 13px 16px;
 
-border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  vertical-align: middle;
+
+  border-bottom: 1px solid #f0f1f3;
 }
 
 th {
-font-size: 13px;
-font-weight: 600;
-white-space: nowrap;
+  background: #f9fafb;
+
+  font-size: 11px;
+  line-height: 16px;
+
+  font-weight: 650;
+
+  color: #6b7280;
+
+  text-transform: uppercase;
+  letter-spacing: 0.035em;
+
+  white-space: nowrap;
+}
+
+td {
+  font-size: 13px;
+  line-height: 19px;
+
+  color: #374151;
 }
 
 tbody tr:last-child td {
-border-bottom: none;
+  border-bottom: none;
 }
+
+tbody tr:hover {
+  background: #fafafa;
+}
+
+
+/* =========================================================
+   Employee
+   ========================================================= */
 
 .employee-cell {
-display: flex;
-flex-direction: column;
-gap: 3px;
+  min-width: 0;
 }
 
-.employee-cell span {
-font-size: 12px;
-opacity: 0.65;
+.employee-name {
+  display: block;
+
+  overflow: hidden;
+
+  font-size: 13px;
+  line-height: 19px;
+
+  font-weight: 600;
+
+  color: #111827;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
+
+
+/* =========================================================
+   Rule
+   ========================================================= */
 
 .rule-code {
-white-space: nowrap;
+  display: inline-block;
+
+  overflow: hidden;
+
+  max-width: 100%;
+
+  font-size: 12px;
+  line-height: 18px;
+
+  font-weight: 600;
+
+  color: #374151;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.description {
-min-width: 260px;
-max-width: 420px;
+
+/* =========================================================
+   Description
+   ========================================================= */
+
+.description-cell {
+  display: -webkit-box;
+
+  overflow: hidden;
+
+  font-size: 13px;
+  line-height: 19px;
+
+  color: #4b5563;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
+
+
+/* =========================================================
+   Severity
+   ========================================================= */
 
 .severity,
 .status {
-display: inline-block;
+  display: inline-flex;
 
-padding: 5px 10px;
+  align-items: center;
 
-border-radius: 999px;
+  min-height: 25px;
 
-font-size: 12px;
-font-weight: 600;
+  padding: 4px 9px;
+
+  border-radius: 999px;
+
+  font-size: 11px;
+  line-height: 16px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
 }
 
-/* Severity */
+
+/* Low */
 
 .severity.low {
-color: #166534;
+  background: #ecfdf5;
+
+  color: #047857;
 }
+
+
+/* Medium */
 
 .severity.medium {
-color: #a16207;
+  background: #fffbeb;
+
+  color: #a16207;
 }
+
+
+/* High */
 
 .severity.high {
-color: #c2410c;
+  background: #fff7ed;
+
+  color: #c2410c;
 }
+
+
+/* Critical */
 
 .severity.critical {
-color: #b91c1c;
+  background: #fef2f2;
+
+  color: #b91c1c;
 }
 
-/* Status */
+
+/* =========================================================
+   Status
+   ========================================================= */
 
 .status.open {
-color: #b45309;
+  background: #fffbeb;
+
+  color: #b45309;
 }
 
 .status.resolved {
-color: #15803d;
+  background: #ecfdf5;
+
+  color: #15803d;
 }
 
 .status.ignored {
-color: #6b7280;
+  background: #f3f4f6;
+
+  color: #6b7280;
 }
 
+
+/* =========================================================
+   Date
+   ========================================================= */
+
+.date-cell {
+  font-size: 12px;
+
+  color: #4b5563;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   Actions
+   ========================================================= */
+
 .actions {
-white-space: nowrap;
+  white-space: nowrap;
+}
+
+.action-buttons {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
 }
 
 .resolve-button,
 .ignore-button {
-margin-right: 8px;
+  height: 32px;
 
-border: none;
+  padding: 0 10px;
+
+  font-size: 12px;
 }
 
-.resolve-button:disabled,
-.ignore-button:disabled,
-.secondary-button:disabled {
-cursor: not-allowed;
-opacity: 0.5;
+.resolve-button {
+  border: 1px solid #bbf7d0;
+
+  background: #f0fdf4;
+
+  color: #15803d;
+}
+
+.resolve-button:hover:not(:disabled) {
+  background: #dcfce7;
+}
+
+.ignore-button {
+  border: 1px solid #e5e7eb;
+
+  background: #f9fafb;
+
+  color: #6b7280;
+}
+
+.ignore-button:hover:not(:disabled) {
+  background: #f3f4f6;
 }
 
 .no-action {
-opacity: 0.5;
+  font-size: 13px;
+
+  color: #9ca3af;
 }
 
+
+/* =========================================================
+   Pagination
+   ========================================================= */
+
 .pagination {
-display: flex;
-align-items: center;
-justify-content: space-between;
+  display: flex;
 
-gap: 16px;
-padding: 16px 20px;
+  align-items: center;
+  justify-content: space-between;
 
-border-top: 1px solid #e5e7eb;
+  gap: 16px;
+
+  padding: 14px 20px;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+.pagination-info {
+  font-size: 13px;
+
+  color: #6b7280;
+}
+
+.pagination-info strong {
+  color: #111827;
 }
 
 .pagination-actions {
-display: flex;
-gap: 8px;
+  display: flex;
+
+  gap: 8px;
 }
 
-@media (max-width: 768px) {
 
-.risk-management-page {
-padding: 16px;
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .risk-management-page {
+    padding: 20px;
+  }
+
+  .filters-card {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .filter-group,
+  .search-filter {
+    width: 100%;
+
+    min-width: 0;
+  }
+
+  .filter-actions {
+    width: 100%;
+  }
+
+  .filter-actions button {
+    flex: 1;
+  }
+
+  .table-header {
+    align-items: flex-start;
+  }
 }
 
-.filters-card {
-flex-direction: column;
-align-items: stretch;
-}
 
-.filter-group,
-.search-filter {
-width: 100%;
-min-width: 0;
-}
+@media (max-width: 600px) {
 
-.filter-actions {
-width: 100%;
-}
+  .risk-management-page {
+    padding: 16px;
+  }
 
-.filter-actions button {
-flex: 1;
-}
+  .page-header h2 {
+    font-size: 23px;
+  }
 
-.table-header,
-.pagination {
-align-items: flex-start;
-flex-direction: column;
-}
+  .table-header,
+  .pagination {
+    align-items: flex-start;
 
-.pagination-actions {
-width: 100%;
-}
+    flex-direction: column;
+  }
 
-.pagination-actions button {
-flex: 1;
-}
+  .pagination-actions {
+    width: 100%;
+  }
+
+  .pagination-actions button {
+    flex: 1;
+  }
+
 }

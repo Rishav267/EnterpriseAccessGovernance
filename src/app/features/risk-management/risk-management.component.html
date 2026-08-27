@@ -1,28 +1,28 @@
 <div class="risk-management-page">
 
+  <!-- ===================================================== -->
   <!-- Page Header -->
+  <!-- ===================================================== -->
+
   <div class="page-header">
-
     <div>
-
       <h2>Risk Management</h2>
 
       <p>
         Monitor, review and manage access governance risks
         across the organization.
       </p>
-
     </div>
-
   </div>
 
 
+  <!-- ===================================================== -->
   <!-- Filters -->
+  <!-- ===================================================== -->
+
   <div class="filters-card">
 
-    <!-- Search -->
     <div class="filter-group search-filter">
-
       <label for="searchTerm">
         Search
       </label>
@@ -33,13 +33,10 @@
         [(ngModel)]="searchTerm"
         (keyup.enter)="applyFilters()"
         placeholder="Search employee, rule or description">
-
     </div>
 
 
-    <!-- Severity -->
     <div class="filter-group">
-
       <label for="severity">
         Severity
       </label>
@@ -61,13 +58,10 @@
         </option>
 
       </select>
-
     </div>
 
 
-    <!-- Status -->
     <div class="filter-group">
-
       <label for="status">
         Status
       </label>
@@ -89,11 +83,9 @@
         </option>
 
       </select>
-
     </div>
 
 
-    <!-- Filter Actions -->
     <div class="filter-actions">
 
       <button
@@ -120,7 +112,10 @@
   </div>
 
 
+  <!-- ===================================================== -->
   <!-- Loading -->
+  <!-- ===================================================== -->
+
   <div
     *ngIf="loading"
     class="state-message">
@@ -130,7 +125,10 @@
   </div>
 
 
+  <!-- ===================================================== -->
   <!-- Error -->
+  <!-- ===================================================== -->
+
   <div
     *ngIf="errorMessage && !loading"
     class="state-message error">
@@ -140,7 +138,10 @@
   </div>
 
 
-  <!-- Empty State -->
+  <!-- ===================================================== -->
+  <!-- Empty -->
+  <!-- ===================================================== -->
+
   <div
     *ngIf="
       !loading &&
@@ -154,7 +155,10 @@
   </div>
 
 
+  <!-- ===================================================== -->
   <!-- Results -->
+  <!-- ===================================================== -->
+
   <div
     *ngIf="
       !loading &&
@@ -164,7 +168,10 @@
     class="table-card">
 
 
+    <!-- =================================================== -->
     <!-- Table Header -->
+    <!-- =================================================== -->
+
     <div class="table-header">
 
       <div>
@@ -182,7 +189,6 @@
       </div>
 
 
-      <!-- Page Size -->
       <div class="page-size">
 
         <label for="pageSize">
@@ -213,22 +219,64 @@
     </div>
 
 
+    <!-- =================================================== -->
     <!-- Table -->
+    <!-- =================================================== -->
+
     <div class="table-wrapper">
 
       <table>
+
+        <colgroup>
+
+          <col class="employee-column">
+
+          <col class="rule-column">
+
+          <col class="description-column">
+
+          <col class="severity-column">
+
+          <col class="status-column">
+
+          <col class="detected-column">
+
+          <col class="actions-column">
+
+        </colgroup>
+
 
         <thead>
 
           <tr>
 
-            <th>Employee</th>
-            <th>Rule</th>
-            <th>Description</th>
-            <th>Severity</th>
-            <th>Status</th>
-            <th>Detected</th>
-            <th>Actions</th>
+            <th>
+              Employee
+            </th>
+
+            <th>
+              Rule
+            </th>
+
+            <th>
+              Description
+            </th>
+
+            <th>
+              Severity
+            </th>
+
+            <th>
+              Status
+            </th>
+
+            <th>
+              Detected
+            </th>
+
+            <th>
+              Actions
+            </th>
 
           </tr>
 
@@ -245,47 +293,43 @@
 
 
             <!-- Employee -->
+
             <td>
 
               <div class="employee-cell">
 
-                <strong>
+                <span class="employee-name">
                   {{ finding.employeeName }}
-                </strong>
-
-                <span
-                  *ngIf="finding.employeeNumber">
-
-                  {{ finding.employeeNumber }}
-
                 </span>
-
               </div>
 
             </td>
 
 
             <!-- Rule -->
+
             <td>
 
-              <strong class="rule-code">
-
+              <span class="rule-code">
                 {{ finding.ruleCode }}
-
-              </strong>
+              </span>
 
             </td>
 
 
             <!-- Description -->
-            <td class="description">
 
-              {{ finding.description }}
+            <td>
+
+              <div class="description-cell">
+                {{ finding.description }}
+              </div>
 
             </td>
 
 
             <!-- Severity -->
+
             <td>
 
               <span
@@ -303,6 +347,7 @@
 
 
             <!-- Status -->
+
             <td>
 
               <span
@@ -319,62 +364,68 @@
 
 
             <!-- Detected -->
-            <td>
+
+            <td class="date-cell">
 
               {{
                 finding.detectedAtUtc
-                  | date:'mediumDate'
+                  | date:'dd MMM yyyy'
               }}
 
             </td>
 
 
             <!-- Actions -->
+
             <td class="actions">
 
-              <button
-                *ngIf="finding.status === 'Open'"
-                type="button"
-                class="resolve-button"
-                [disabled]="
-                  actionInProgressId === finding.id
-                "
-                (click)="resolve(finding)">
+              <div class="action-buttons">
 
-                {{
-                  actionInProgressId === finding.id
-                    ? 'Processing...'
-                    : 'Resolve'
-                }}
+                <button
+                  *ngIf="finding.status === 'Open'"
+                  type="button"
+                  class="resolve-button"
+                  [disabled]="
+                    actionInProgressId === finding.id
+                  "
+                  (click)="resolve(finding)">
 
-              </button>
+                  {{
+                    actionInProgressId === finding.id
+                      ? 'Processing...'
+                      : 'Resolve'
+                  }}
 
-
-              <button
-                *ngIf="finding.status === 'Open'"
-                type="button"
-                class="ignore-button"
-                [disabled]="
-                  actionInProgressId === finding.id
-                "
-                (click)="ignore(finding)">
-
-                {{
-                  actionInProgressId === finding.id
-                    ? 'Processing...'
-                    : 'Ignore'
-                }}
-
-              </button>
+                </button>
 
 
-              <span
-                *ngIf="finding.status !== 'Open'"
-                class="no-action">
+                <button
+                  *ngIf="finding.status === 'Open'"
+                  type="button"
+                  class="ignore-button"
+                  [disabled]="
+                    actionInProgressId === finding.id
+                  "
+                  (click)="ignore(finding)">
 
-                —
+                  {{
+                    actionInProgressId === finding.id
+                      ? 'Processing...'
+                      : 'Ignore'
+                  }}
 
-              </span>
+                </button>
+
+
+                <span
+                  *ngIf="finding.status !== 'Open'"
+                  class="no-action">
+
+                  —
+
+                </span>
+
+              </div>
 
             </td>
 
@@ -387,10 +438,13 @@
     </div>
 
 
+    <!-- =================================================== -->
     <!-- Pagination -->
+    <!-- =================================================== -->
+
     <div class="pagination">
 
-      <div>
+      <div class="pagination-info">
 
         Page
 
@@ -423,9 +477,7 @@
         <button
           type="button"
           class="secondary-button"
-          [disabled]="
-            pageNumber >= totalPages
-          "
+          [disabled]="pageNumber >= totalPages"
           (click)="nextPage()">
 
           Next

@@ -1,79 +1,627 @@
 <div class="dashboard">
 
+  <!-- ===================================================== -->
+  <!-- Header -->
+  <!-- ===================================================== -->
+
   <div class="dashboard-header">
+
     <div>
-      <h2>Dashboard</h2>
-      <p>Enterprise access governance overview</p>
+
+      <h2>
+        Dashboard
+      </h2>
+
+      <p>
+        Enterprise access governance overview
+      </p>
+
     </div>
+
+    <button
+      type="button"
+      class="refresh-button"
+      [disabled]="loading"
+      (click)="loadDashboard()">
+
+      {{ loading ? 'Refreshing...' : 'Refresh' }}
+
+    </button>
+
   </div>
 
-  <div *ngIf="loading" class="loading">
-    Loading dashboard...
+
+  <!-- ===================================================== -->
+  <!-- Loading -->
+  <!-- ===================================================== -->
+
+  <div
+    *ngIf="loading"
+    class="state-message">
+
+    <div class="loading-spinner"></div>
+
+    <span>
+      Loading dashboard...
+    </span>
+
   </div>
 
-  <div *ngIf="errorMessage" class="error">
-    {{ errorMessage }}
+
+  <!-- ===================================================== -->
+  <!-- Error -->
+  <!-- ===================================================== -->
+
+  <div
+    *ngIf="errorMessage && !loading"
+    class="error-message">
+
+    <div>
+
+      <strong>
+        Dashboard unavailable
+      </strong>
+
+      <span>
+        {{ errorMessage }}
+      </span>
+
+    </div>
+
+    <button
+      type="button"
+      (click)="loadDashboard()">
+
+      Retry
+
+    </button>
+
   </div>
+
+
+  <!-- ===================================================== -->
+  <!-- Dashboard Content -->
+  <!-- ===================================================== -->
 
   <div
     *ngIf="summary && !loading"
-    class="stats-grid">
+    class="dashboard-content">
 
-    <div class="stat-card">
-      <span class="stat-label">Total Employees</span>
-      <span class="stat-value">
-        {{ summary.totalEmployees }}
-      </span>
-    </div>
 
-    <div class="stat-card">
-      <span class="stat-label">Active Employees</span>
-      <span class="stat-value">
-        {{ summary.activeEmployees }}
-      </span>
-    </div>
+    <!-- =================================================== -->
+    <!-- Main KPI Cards -->
+    <!-- =================================================== -->
 
-    <div class="stat-card">
-      <span class="stat-label">Applications</span>
-      <span class="stat-value">
-        {{ summary.totalApplications }}
-      </span>
-    </div>
+    <section class="kpi-grid">
 
-    <div class="stat-card">
-      <span class="stat-label">Access Assignments</span>
-      <span class="stat-value">
-        {{ summary.totalAccessAssignments }}
-      </span>
-    </div>
 
-    <div class="stat-card">
-      <span class="stat-label">Active Access</span>
-      <span class="stat-value">
-        {{ summary.activeAccessAssignments }}
-      </span>
-    </div>
+      <!-- Employees -->
 
-    <div class="stat-card">
-      <span class="stat-label">Pending Reviews</span>
-      <span class="stat-value">
-        {{ summary.pendingReviews }}
-      </span>
-    </div>
+      <div class="kpi-card">
 
-    <div class="stat-card">
-      <span class="stat-label">High Risk Users</span>
-      <span class="stat-value">
-        {{ summary.highRiskUsers }}
-      </span>
-    </div>
+        <div class="kpi-top">
 
-    <div class="stat-card">
-      <span class="stat-label">Open Risk Findings</span>
-      <span class="stat-value">
-        {{ summary.openRiskFindings }}
-      </span>
-    </div>
+          <span class="kpi-label">
+            Employees
+          </span>
+
+          <span class="kpi-icon">
+            👥
+          </span>
+
+        </div>
+
+        <div class="kpi-value">
+          {{ summary.totalEmployees }}
+        </div>
+
+        <div class="kpi-footer">
+
+          <span class="positive">
+            {{ summary.activeEmployees }}
+          </span>
+
+          <span>
+            active employees
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Applications -->
+
+      <div class="kpi-card">
+
+        <div class="kpi-top">
+
+          <span class="kpi-label">
+            Applications
+          </span>
+
+          <span class="kpi-icon">
+            ◈
+          </span>
+
+        </div>
+
+        <div class="kpi-value">
+          {{ summary.totalApplications }}
+        </div>
+
+        <div class="kpi-footer">
+
+          <span>
+            enterprise applications
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Access -->
+
+      <div class="kpi-card">
+
+        <div class="kpi-top">
+
+          <span class="kpi-label">
+            Access Assignments
+          </span>
+
+          <span class="kpi-icon">
+            🔐
+          </span>
+
+        </div>
+
+        <div class="kpi-value">
+          {{ summary.totalAccessAssignments }}
+        </div>
+
+        <div class="kpi-footer">
+
+          <span class="positive">
+            {{ summary.activeAccessAssignments }}
+          </span>
+
+          <span>
+            active access
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Pending Reviews -->
+
+      <div class="kpi-card warning-card">
+
+        <div class="kpi-top">
+
+          <span class="kpi-label">
+            Pending Reviews
+          </span>
+
+          <span class="kpi-icon warning">
+            !
+          </span>
+
+        </div>
+
+        <div class="kpi-value">
+          {{ summary.pendingReviews }}
+        </div>
+
+        <div class="kpi-footer">
+
+          <span>
+            access certifications pending
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- High Risk -->
+
+      <div class="kpi-card danger-card">
+
+        <div class="kpi-top">
+
+          <span class="kpi-label">
+            High Risk Users
+          </span>
+
+          <span class="kpi-icon danger">
+            ⚠
+          </span>
+
+        </div>
+
+        <div class="kpi-value">
+          {{ summary.highRiskUsers }}
+        </div>
+
+        <div class="kpi-footer">
+
+          <span>
+            users requiring attention
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Open Findings -->
+
+      <div class="kpi-card danger-card">
+
+        <div class="kpi-top">
+
+          <span class="kpi-label">
+            Open Risk Findings
+          </span>
+
+          <span class="kpi-icon danger">
+            !
+          </span>
+
+        </div>
+
+        <div class="kpi-value">
+          {{ summary.openRiskFindings }}
+        </div>
+
+        <div class="kpi-footer">
+
+          <span>
+            governance findings
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================== -->
+    <!-- Analytics -->
+    <!-- =================================================== -->
+
+    <section class="analytics-grid">
+
+
+      <!-- Employee Activity -->
+
+      <div class="analytics-card">
+
+        <div class="analytics-header">
+
+          <div>
+
+            <h3>
+              Employee Activity
+            </h3>
+
+            <p>
+              Active employees vs total workforce
+            </p>
+
+          </div>
+
+          <strong>
+            {{ employeeActivityPercentage }}%
+          </strong>
+
+        </div>
+
+
+        <div class="progress-track">
+
+          <div
+            class="progress-bar"
+            [style.width.%]="employeeActivityPercentage">
+          </div>
+
+        </div>
+
+
+        <div class="analytics-footer">
+
+          <span>
+            Active
+          </span>
+
+          <strong>
+            {{ summary.activeEmployees }}
+          </strong>
+
+          <span>
+            of {{ summary.totalEmployees }}
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Access Utilization -->
+
+      <div class="analytics-card">
+
+        <div class="analytics-header">
+
+          <div>
+
+            <h3>
+              Active Access
+            </h3>
+
+            <p>
+              Active assignments vs total assignments
+            </p>
+
+          </div>
+
+          <strong>
+            {{ accessUtilizationPercentage }}%
+          </strong>
+
+        </div>
+
+
+        <div class="progress-track">
+
+          <div
+            class="progress-bar access"
+            [style.width.%]="accessUtilizationPercentage">
+          </div>
+
+        </div>
+
+
+        <div class="analytics-footer">
+
+          <span>
+            Active
+          </span>
+
+          <strong>
+            {{ summary.activeAccessAssignments }}
+          </strong>
+
+          <span>
+            of {{ summary.totalAccessAssignments }}
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Certification -->
+
+      <div class="analytics-card">
+
+        <div class="analytics-header">
+
+          <div>
+
+            <h3>
+              Certification Progress
+            </h3>
+
+            <p>
+              Completed access certifications
+            </p>
+
+          </div>
+
+          <strong>
+            {{ reviewCompletionPercentage }}%
+          </strong>
+
+        </div>
+
+
+        <div class="progress-track">
+
+          <div
+            class="progress-bar certification"
+            [style.width.%]="reviewCompletionPercentage">
+          </div>
+
+        </div>
+
+
+        <div class="analytics-footer">
+
+          <span>
+            Pending
+          </span>
+
+          <strong>
+            {{ summary.pendingReviews }}
+          </strong>
+
+          <span>
+            reviews
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Risk -->
+
+      <div class="analytics-card risk-analytics">
+
+        <div class="analytics-header">
+
+          <div>
+
+            <h3>
+              Risk Exposure
+            </h3>
+
+            <p>
+              Employees currently identified as high risk
+            </p>
+
+          </div>
+
+          <strong>
+            {{ riskPercentage }}%
+          </strong>
+
+        </div>
+
+
+        <div class="progress-track">
+
+          <div
+            class="progress-bar risk"
+            [style.width.%]="riskPercentage">
+          </div>
+
+        </div>
+
+
+        <div class="analytics-footer">
+
+          <span>
+            High-risk users
+          </span>
+
+          <strong>
+            {{ summary.highRiskUsers }}
+          </strong>
+
+          <span>
+            of {{ summary.totalEmployees }}
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================== -->
+    <!-- Governance Overview -->
+    <!-- =================================================== -->
+
+    <section class="governance-card">
+
+      <div class="governance-header">
+
+        <div>
+
+          <h3>
+            Governance Overview
+          </h3>
+
+          <p>
+            Current access governance workload
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="governance-grid">
+
+
+        <div class="governance-item">
+
+          <span class="governance-label">
+            Total Employees
+          </span>
+
+          <strong>
+            {{ summary.totalEmployees }}
+          </strong>
+
+        </div>
+
+
+        <div class="governance-item">
+
+          <span class="governance-label">
+            Applications
+          </span>
+
+          <strong>
+            {{ summary.totalApplications }}
+          </strong>
+
+        </div>
+
+
+        <div class="governance-item">
+
+          <span class="governance-label">
+            Total Access
+          </span>
+
+          <strong>
+            {{ summary.totalAccessAssignments }}
+          </strong>
+
+        </div>
+
+
+        <div class="governance-item warning">
+
+          <span class="governance-label">
+            Pending Certifications
+          </span>
+
+          <strong>
+            {{ summary.pendingReviews }}
+          </strong>
+
+        </div>
+
+
+        <div class="governance-item danger">
+
+          <span class="governance-label">
+            High Risk Users
+          </span>
+
+          <strong>
+            {{ summary.highRiskUsers }}
+          </strong>
+
+        </div>
+
+
+        <div class="governance-item danger">
+
+          <span class="governance-label">
+            Open Findings
+          </span>
+
+          <strong>
+            {{ summary.openRiskFindings }}
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
 
   </div>
 
