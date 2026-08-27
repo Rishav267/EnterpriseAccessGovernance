@@ -1,0 +1,444 @@
+<div class="access-assignments-page">
+
+  <!-- ===================================================== -->
+  <!-- Header -->
+  <!-- ===================================================== -->
+
+  <div class="page-header">
+
+    <div>
+
+      <a
+        [routerLink]="[
+          '/employees',
+          employeeId
+        ]"
+        class="back-link">
+
+        ← Back to Employee
+
+      </a>
+
+
+      <h2>
+        Access Assignments
+      </h2>
+
+
+      <p>
+        Review and manage application access assigned
+        to this employee.
+      </p>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="refresh-button"
+      [disabled]="loading"
+      (click)="loadAssignments()">
+
+      Refresh
+
+    </button>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- Loading -->
+  <!-- ===================================================== -->
+
+  <div
+    *ngIf="loading"
+    class="state-message">
+
+    Loading access assignments...
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- Error -->
+  <!-- ===================================================== -->
+
+  <div
+    *ngIf="errorMessage && !loading"
+    class="state-message error">
+
+    {{ errorMessage }}
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- Content -->
+  <!-- ===================================================== -->
+
+  <div
+    *ngIf="!loading && !errorMessage"
+    class="content">
+
+
+    <!-- =================================================== -->
+    <!-- Summary -->
+    <!-- =================================================== -->
+
+    <div class="summary-card">
+
+
+      <div class="summary-item">
+
+        <span class="summary-label">
+          Total Access
+        </span>
+
+        <span class="summary-value">
+          {{ totalAccessCount }}
+        </span>
+
+      </div>
+
+
+      <div class="summary-item">
+
+        <span class="summary-label">
+          Active
+        </span>
+
+        <span class="summary-value">
+          {{ activeAccessCount }}
+        </span>
+
+      </div>
+
+
+      <div class="summary-item">
+
+        <span class="summary-label">
+          High Privilege
+        </span>
+
+        <span class="summary-value">
+          {{ highPrivilegeCount }}
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- Empty State -->
+    <!-- =================================================== -->
+
+    <div
+      *ngIf="assignments.length === 0"
+      class="empty-state">
+
+      <div class="empty-title">
+        No access assignments
+      </div>
+
+
+      <div class="empty-description">
+        This employee currently has no application
+        access assignments.
+      </div>
+
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- Table -->
+    <!-- =================================================== -->
+
+    <div
+      *ngIf="assignments.length > 0"
+      class="table-container">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Application
+            </th>
+
+            <th>
+              Role
+            </th>
+
+            <th>
+              Privilege
+            </th>
+
+            <th>
+              Status
+            </th>
+
+            <th>
+              Granted
+            </th>
+
+            <th>
+              Expires
+            </th>
+
+            <th>
+              Last Reviewed
+            </th>
+
+            <th>
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr
+            *ngFor="
+              let assignment of assignments
+            ">
+
+
+            <!-- ========================================= -->
+            <!-- Application -->
+            <!-- ========================================= -->
+
+            <td>
+
+              <div class="application-name">
+                {{ assignment.applicationName }}
+              </div>
+
+
+              <div class="secondary-text">
+                {{ assignment.applicationCode }}
+              </div>
+
+            </td>
+
+
+            <!-- ========================================= -->
+            <!-- Role -->
+            <!-- ========================================= -->
+
+            <td>
+
+              <div class="role-name">
+                {{ assignment.roleName }}
+              </div>
+
+
+              <div class="secondary-text">
+                {{ assignment.roleCode }}
+              </div>
+
+            </td>
+
+
+            <!-- ========================================= -->
+            <!-- Privilege -->
+            <!-- ========================================= -->
+
+            <td>
+
+              <span
+                *ngIf="assignment.isHighPrivilege"
+                class="privilege high">
+
+                High Privilege
+
+              </span>
+
+
+              <span
+                *ngIf="!assignment.isHighPrivilege"
+                class="privilege normal">
+
+                Standard
+
+              </span>
+
+            </td>
+
+
+            <!-- ========================================= -->
+            <!-- Status -->
+            <!-- ========================================= -->
+
+            <td>
+
+              <span
+                class="status"
+
+                [class.active]="
+                  assignment.status === 'Active'
+                "
+
+                [class.revoked]="
+                  assignment.status === 'Revoked'
+                "
+
+                [class.pending]="
+                  assignment.status === 'PendingReview'
+                ">
+
+                {{ assignment.status }}
+
+              </span>
+
+            </td>
+
+
+            <!-- ========================================= -->
+            <!-- Granted -->
+            <!-- ========================================= -->
+
+            <td>
+
+              {{ formatDate(
+                assignment.grantedAtUtc
+              ) }}
+
+            </td>
+
+
+            <!-- ========================================= -->
+            <!-- Expires -->
+            <!-- ========================================= -->
+
+            <td>
+
+              {{ formatDate(
+                assignment.expiresAtUtc
+              ) }}
+
+            </td>
+
+
+            <!-- ========================================= -->
+            <!-- Last Reviewed -->
+            <!-- ========================================= -->
+
+            <td>
+
+              {{ formatDate(
+                assignment.lastReviewedAtUtc
+              ) }}
+
+            </td>
+
+
+            <!-- ========================================= -->
+            <!-- Actions -->
+            <!-- ========================================= -->
+
+            <td>
+
+              <div class="actions">
+
+
+                <!-- Approve -->
+
+                <button
+                  *ngIf="
+                    assignment.status ===
+                    'PendingReview'
+                  "
+
+                  type="button"
+
+                  class="approve-button"
+
+                  [disabled]="
+                    isActionInProgress(
+                      assignment
+                    )
+                  "
+
+                  (click)="
+                    approve(assignment)
+                  ">
+
+                  {{
+                    isActionInProgress(
+                      assignment
+                    )
+                      ? 'Processing...'
+                      : 'Approve'
+                  }}
+
+                </button>
+
+
+                <!-- Revoke -->
+
+                <button
+                  *ngIf="
+                    assignment.status !==
+                    'Revoked'
+                  "
+
+                  type="button"
+
+                  class="revoke-button"
+
+                  [disabled]="
+                    isActionInProgress(
+                      assignment
+                    )
+                  "
+
+                  (click)="
+                    revoke(assignment)
+                  ">
+
+                  {{
+                    isActionInProgress(
+                      assignment
+                    )
+                      ? 'Processing...'
+                      : 'Revoke'
+                  }}
+
+                </button>
+
+
+                <!-- Already Revoked -->
+
+                <span
+                  *ngIf="
+                    assignment.status ===
+                    'Revoked'
+                  "
+
+                  class="revoked-text">
+
+                  Revoked
+
+                </span>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

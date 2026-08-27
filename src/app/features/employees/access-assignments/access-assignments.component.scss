@@ -1,0 +1,303 @@
+.access-assignments-page {
+  padding: 32px;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 28px;
+}
+
+.page-header h2 {
+  margin: 8px 0 6px;
+  font-size: 28px;
+  font-weight: 650;
+}
+
+.page-header p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.back-link {
+  text-decoration: none;
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.refresh-button {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  padding: 9px 18px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.refresh-button:hover:not(:disabled) {
+  background: #f9fafb;
+}
+
+.refresh-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* Summary */
+
+.summary-card {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(180px, 1fr));
+
+  gap: 16px;
+
+  margin-bottom: 22px;
+}
+
+.summary-item {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 18px 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summary-label {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.summary-value {
+  font-size: 25px;
+  font-weight: 650;
+}
+
+
+/* Table */
+
+.table-container {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1100px;
+}
+
+thead {
+  background: #f9fafb;
+}
+
+th {
+  padding: 14px 16px;
+  text-align: left;
+
+  font-size: 12px;
+  font-weight: 650;
+  color: #6b7280;
+
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+td {
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: #fafafa;
+}
+
+
+/* Application / Role */
+
+.application-name,
+.role-name {
+  font-weight: 600;
+  color: #111827;
+}
+
+.secondary-text {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+
+/* Privilege */
+
+.privilege {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.privilege.high {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.privilege.normal {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+
+/* Status */
+
+.status {
+  display: inline-flex;
+
+  padding: 5px 10px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.status.active {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.status.pending {
+  background: #fffbeb;
+  color: #b45309;
+}
+
+.status.revoked {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+
+/* Actions */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actions button {
+  border: none;
+  border-radius: 6px;
+
+  padding: 7px 12px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.approve-button {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.approve-button:hover:not(:disabled) {
+  background: #d1fae5;
+}
+
+.revoke-button {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.revoke-button:hover:not(:disabled) {
+  background: #fee2e2;
+}
+
+.revoked-text {
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+
+/* States */
+
+.state-message {
+  padding: 40px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.state-message.error {
+  color: #b91c1c;
+}
+
+.empty-state {
+  padding: 70px 30px;
+  text-align: center;
+
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+.empty-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.empty-description {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+
+/* Responsive */
+
+@media (max-width: 900px) {
+
+  .access-assignments-page {
+    padding: 20px;
+  }
+
+  .page-header {
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .summary-card {
+    grid-template-columns: 1fr;
+  }
+}

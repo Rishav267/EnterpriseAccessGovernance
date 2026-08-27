@@ -1,0 +1,190 @@
+<div class="risk-page">
+
+  <div class="page-header">
+
+    <div>
+
+      <a
+        routerLink="/employees"
+        class="back-link">
+
+        ← Back to Employees
+
+      </a>
+
+      <h2>Risk Findings</h2>
+
+      <p>
+        Security and access governance risks detected for this employee.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div
+    *ngIf="loading"
+    class="state-message">
+
+    Loading risk findings...
+
+  </div>
+
+
+  <div
+    *ngIf="errorMessage && !loading"
+    class="state-message error">
+
+    {{ errorMessage }}
+
+  </div>
+
+
+  <div
+    *ngIf="!loading && !errorMessage && findings.length === 0"
+    class="state-message">
+
+    No risk findings found for this employee.
+
+  </div>
+
+
+  <div
+    *ngIf="!loading && findings.length > 0"
+    class="table-card">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>Rule</th>
+          <th>Description</th>
+          <th>Severity</th>
+          <th>Status</th>
+          <th>Detected</th>
+          <th>Resolved</th>
+          <th>Actions</th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+        <tr
+          *ngFor="let finding of findings">
+
+          <td>
+
+            <strong>
+              {{ finding.ruleCode }}
+            </strong>
+
+          </td>
+
+
+          <td>
+            {{ finding.description }}
+          </td>
+
+
+          <td>
+
+            <span
+              class="severity"
+              [class.low]="finding.severity === 'Low'"
+              [class.medium]="finding.severity === 'Medium'"
+              [class.high]="finding.severity === 'High'"
+              [class.critical]="finding.severity === 'Critical'">
+
+              {{ finding.severity }}
+
+            </span>
+
+          </td>
+
+
+          <td>
+
+            <span
+              class="status"
+              [class.open]="finding.status === 'Open'"
+              [class.resolved]="finding.status === 'Resolved'"
+              [class.ignored]="finding.status === 'Ignored'">
+
+              {{ finding.status }}
+
+            </span>
+
+          </td>
+
+
+          <td>
+            {{ finding.detectedAtUtc | date:'mediumDate' }}
+          </td>
+
+
+          <td>
+
+            {{
+              finding.resolvedAtUtc
+                ? (finding.resolvedAtUtc | date:'mediumDate')
+                : '—'
+            }}
+
+          </td>
+
+
+          <td class="actions">
+
+            <button
+              *ngIf="finding.status === 'Open'"
+              type="button"
+              class="resolve-button"
+              [disabled]="actionInProgressId === finding.id"
+              (click)="resolve(finding)">
+
+              {{
+                actionInProgressId === finding.id
+                  ? 'Processing...'
+                  : 'Resolve'
+              }}
+
+            </button>
+
+
+            <button
+              *ngIf="finding.status === 'Open'"
+              type="button"
+              class="ignore-button"
+              [disabled]="actionInProgressId === finding.id"
+              (click)="ignore(finding)">
+
+              Ignore
+
+            </button>
+
+
+            <span
+              *ngIf="finding.status !== 'Open'"
+              class="no-action">
+
+              —
+
+            </span>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

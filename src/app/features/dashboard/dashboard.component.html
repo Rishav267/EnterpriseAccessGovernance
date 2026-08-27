@@ -1,0 +1,80 @@
+<div class="dashboard">
+
+  <div class="dashboard-header">
+    <div>
+      <h2>Dashboard</h2>
+      <p>Enterprise access governance overview</p>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    Loading dashboard...
+  </div>
+
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+
+  <div
+    *ngIf="summary && !loading"
+    class="stats-grid">
+
+    <div class="stat-card">
+      <span class="stat-label">Total Employees</span>
+      <span class="stat-value">
+        {{ summary.totalEmployees }}
+      </span>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Active Employees</span>
+      <span class="stat-value">
+        {{ summary.activeEmployees }}
+      </span>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Applications</span>
+      <span class="stat-value">
+        {{ summary.totalApplications }}
+      </span>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Access Assignments</span>
+      <span class="stat-value">
+        {{ summary.totalAccessAssignments }}
+      </span>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Active Access</span>
+      <span class="stat-value">
+        {{ summary.activeAccessAssignments }}
+      </span>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Pending Reviews</span>
+      <span class="stat-value">
+        {{ summary.pendingReviews }}
+      </span>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">High Risk Users</span>
+      <span class="stat-value">
+        {{ summary.highRiskUsers }}
+      </span>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Open Risk Findings</span>
+      <span class="stat-value">
+        {{ summary.openRiskFindings }}
+      </span>
+    </div>
+
+  </div>
+
+</div>

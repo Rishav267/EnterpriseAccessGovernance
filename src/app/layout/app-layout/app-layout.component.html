@@ -1,0 +1,139 @@
+<div class="app-shell">
+
+  <header class="top-header">
+    <div class="brand">
+      <div class="brand-icon">E</div>
+
+      <div>
+        <div class="brand-title">
+          Enterprise Access Governance
+        </div>
+
+        <div class="brand-subtitle">
+          Identity & Access Management
+        </div>
+      </div>
+    </div>
+
+    <div class="header-user">
+      <div class="user-avatar">RK</div>
+
+      <div class="user-info">
+        <span class="user-name">Administrator</span>
+        <span class="user-role">System Administrator</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-body">
+
+    <aside class="sidebar">
+
+      <nav class="navigation">
+
+        <div class="nav-section-title">
+          OVERVIEW
+        </div>
+
+        <a
+          routerLink="/dashboard"
+          routerLinkActive="active"
+          class="nav-item">
+          <span class="nav-icon">▣</span>
+          <span>Dashboard</span>
+        </a>
+
+        <div class="nav-section-title">
+          ACCESS MANAGEMENT
+        </div>
+
+        <a
+          routerLink="/employees"
+          routerLinkActive="active"
+          class="nav-item">
+          <span class="nav-icon">♙</span>
+          <span>Employees</span>
+        </a>
+
+        <a
+          routerLink="/applications"
+          routerLinkActive="active"
+          class="nav-item">
+          <span class="nav-icon">▤</span>
+          <span>Applications</span>
+        </a>
+
+        <a
+          routerLink="/roles"
+          routerLinkActive="active"
+          class="nav-item">
+          <span class="nav-icon">◈</span>
+          <span>Roles</span>
+        </a>
+
+        <a
+          routerLink="/permissions"
+          routerLinkActive="active"
+          class="nav-item">
+          <span class="nav-icon">◆</span>
+          <span>Permissions</span>
+        </a>
+
+        <a
+          routerLink="/access"
+          routerLinkActive="active"
+          class="nav-item">
+          <span class="nav-icon">⇄</span>
+          <span>Access Assignments</span>
+        </a>
+
+        <div class="nav-section-title">
+          GOVERNANCE
+        </div>
+
+        <a
+          routerLink="/reviews"
+          routerLinkActive="active"
+          class="nav-item">
+          <span class="nav-icon">✓</span>
+          <span>Reviews</span>
+        </a>
+
+        <a
+          routerLink="/risk"
+          routerLinkActive="active"
+          class="nav-item">
+          <span class="nav-icon">⚠</span>
+          <span>Risk</span>
+        </a>
+
+        <div class="nav-section-title">
+          DATA
+        </div>
+
+        <a
+          routerLink="/imports"
+          routerLinkActive="active"
+          class="nav-item">
+          <span class="nav-icon">⇧</span>
+          <span>Imports</span>
+        </a>
+
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="system-status">
+          <span class="status-dot"></span>
+          API Connected
+        </div>
+      </div>
+
+    </aside>
+
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+
+</div>

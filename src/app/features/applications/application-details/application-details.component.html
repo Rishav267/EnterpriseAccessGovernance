@@ -1,0 +1,353 @@
+<div class="application-details-page">
+
+  <!-- Header -->
+  <div class="page-header">
+
+    <a
+      routerLink="/applications"
+      class="back-link">
+
+      ← Back to Applications
+
+    </a>
+
+    <div
+      class="header-main"
+      *ngIf="application">
+
+      <div class="application-icon">
+        {{ application.name.charAt(0).toUpperCase() }}
+      </div>
+
+      <div>
+
+        <div class="eyebrow">
+          ENTERPRISE APPLICATION
+        </div>
+
+        <h2>
+          {{ application.name }}
+        </h2>
+
+        <span class="application-code">
+          {{ application.code }}
+        </span>
+
+      </div>
+
+    </div>
+
+    <div *ngIf="!application">
+
+      <div class="eyebrow">
+        APPLICATION
+      </div>
+
+      <h2>
+        Application Details
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <!-- Loading -->
+  <div
+    *ngIf="loading"
+    class="state-card">
+
+    <div class="loading-spinner"></div>
+
+    <div>
+
+      <div class="state-title">
+        Loading application
+      </div>
+
+      <div class="state-description">
+        Fetching application information and roles...
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Error -->
+  <div
+    *ngIf="errorMessage && !loading"
+    class="state-card error-card">
+
+    <div class="state-icon">
+      !
+    </div>
+
+    <div>
+
+      <div class="state-title">
+        Unable to load application
+      </div>
+
+      <div class="state-description">
+        {{ errorMessage }}
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <ng-container
+    *ngIf="application && !loading">
+
+
+    <!-- Application Overview -->
+    <div class="overview-card">
+
+      <div class="overview-header">
+
+        <div>
+
+          <h3>
+            Application Overview
+          </h3>
+
+          <p>
+            Basic information about this enterprise application.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="overview-grid">
+
+        <div class="detail-item">
+
+          <span class="label">
+            Application Name
+          </span>
+
+          <span class="value">
+            {{ application.name }}
+          </span>
+
+        </div>
+
+
+        <div class="detail-item">
+
+          <span class="label">
+            Application Code
+          </span>
+
+          <span class="value code-value">
+            {{ application.code }}
+          </span>
+
+        </div>
+
+
+        <div class="detail-item">
+
+          <span class="label">
+            Description
+          </span>
+
+          <span class="value">
+            {{ application.description || 'No description available.' }}
+          </span>
+
+        </div>
+
+
+        <div class="detail-item">
+
+          <span class="label">
+            Configured Roles
+          </span>
+
+          <span class="value large-value">
+            {{ application.roleCount }}
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Roles -->
+    <div class="roles-section">
+
+      <div class="section-header">
+
+        <div>
+
+          <div class="eyebrow">
+            ACCESS MODEL
+          </div>
+
+          <h3>
+            Application Roles
+          </h3>
+
+          <p>
+            Roles configured for this application and their privilege levels.
+          </p>
+
+        </div>
+
+        <div class="role-total">
+          {{ roles.length }}
+          {{ roles.length === 1 ? 'Role' : 'Roles' }}
+        </div>
+
+      </div>
+
+
+      <!-- Empty -->
+      <div
+        *ngIf="roles.length === 0"
+        class="empty-card">
+
+        <div class="empty-icon">
+          ◫
+        </div>
+
+        <div class="empty-title">
+          No roles configured
+        </div>
+
+        <div class="empty-description">
+          This application does not currently have any roles configured.
+        </div>
+
+      </div>
+
+
+      <!-- Roles table -->
+      <div
+        *ngIf="roles.length > 0"
+        class="roles-card">
+
+        <div class="table-container">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Role</th>
+                <th>Code</th>
+                <th>Privilege</th>
+                <th>Permissions</th>
+                <th></th>
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              <tr
+                *ngFor="let role of roles">
+
+                <td>
+
+                  <a
+                    class="role-name"
+                    [routerLink]="[
+                      '/applications',
+                      role.enterpriseApplicationId,
+                      'roles',
+                      role.id
+                    ]">
+
+                    {{ role.name }}
+
+                  </a>
+
+                </td>
+
+
+                <td>
+
+                  <span class="role-code">
+                    {{ role.code }}
+                  </span>
+
+                </td>
+
+
+                <td>
+
+                  <span
+                    class="privilege-badge"
+                    [class.high-privilege]="role.isHighPrivilege">
+
+                    {{
+                      role.isHighPrivilege
+                        ? 'High Privilege'
+                        : 'Standard'
+                    }}
+
+                  </span>
+
+                </td>
+
+
+                <td>
+
+                  <span class="permission-count">
+                    {{ role.permissionCount }}
+                  </span>
+
+                  <span class="permission-label">
+                    {{
+                      role.permissionCount === 1
+                        ? 'permission'
+                        : 'permissions'
+                    }}
+                  </span>
+
+                </td>
+
+
+                <td class="action-cell">
+
+                  <a
+                    [routerLink]="[
+                      '/applications',
+                      role.enterpriseApplicationId,
+                      'roles',
+                      role.id
+                    ]"
+                    class="view-button">
+
+                    View
+
+                    <span>→</span>
+
+                  </a>
+
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </ng-container>
+
+</div>

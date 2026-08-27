@@ -1,0 +1,234 @@
+<div class="employees-page">
+
+  <div class="page-header">
+
+    <div>
+      <h2>Employees</h2>
+
+      <p>
+        Manage and review employees in the organization.
+      </p>
+    </div>
+
+    <button
+      class="refresh-button"
+      type="button"
+      (click)="loadEmployees()">
+      Refresh
+    </button>
+
+  </div>
+
+
+  <div class="toolbar">
+
+    <div class="search-box">
+
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        placeholder="Search by name, ID, email or department" />
+
+    </div>
+
+
+    <select
+      [(ngModel)]="selectedDepartment"
+      (change)="onDepartmentChange()">
+
+      <option value="">
+        All Departments
+      </option>
+
+      <option
+        *ngFor="let department of departments"
+        [value]="department">
+
+        {{ department }}
+
+      </option>
+
+    </select>
+
+
+    <select
+      [(ngModel)]="selectedStatus"
+      (change)="onStatusChange()">
+
+      <option value="">
+        All Statuses
+      </option>
+
+      <option
+        *ngFor="let status of statuses"
+        [value]="status">
+
+        {{ status }}
+
+      </option>
+
+    </select>
+
+
+    <div class="employee-count">
+
+      {{ filteredEmployees.length }}
+      employee{{ filteredEmployees.length === 1 ? '' : 's' }}
+
+    </div>
+
+  </div>
+
+
+  <div
+    *ngIf="loading"
+    class="state-message">
+
+    Loading employees...
+
+  </div>
+
+
+  <div
+    *ngIf="errorMessage && !loading"
+    class="state-message error">
+
+    {{ errorMessage }}
+
+  </div>
+
+
+  <div
+    *ngIf="!loading && !errorMessage"
+    class="table-container">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>Employee ID</th>
+
+          <th>Name</th>
+
+          <th>Email</th>
+
+          <th>Department</th>
+
+          <th>Status</th>
+
+          <th>Manager</th>
+
+          <th>Actions</th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+        <tr
+          *ngFor="let employee of filteredEmployees">
+
+          <td>
+            {{ employee.employeeNumber }}
+          </td>
+
+
+          <td>
+
+            <a
+              class="employee-link"
+              [routerLink]="['/employees', employee.id]">
+
+              {{ employee.fullName }}
+
+            </a>
+
+          </td>
+
+
+          <td>
+            {{ employee.email }}
+          </td>
+
+
+          <td>
+            {{ employee.departmentName }}
+          </td>
+
+
+          <td>
+
+            <span
+              class="status"
+              [class.active]="
+                employee.employmentStatus === 'Active'
+              ">
+
+              {{ employee.employmentStatus }}
+
+            </span>
+
+          </td>
+
+
+          <td>
+            {{ employee.managerName || '—' }}
+          </td>
+
+
+          <td class="actions">
+
+            <a
+              class="action-link"
+              [routerLink]="[
+                '/employees',
+                employee.id,
+                'access-assignments'
+              ]">
+
+              Access
+
+            </a>
+
+
+            <a
+              class="action-link risk-link"
+              [routerLink]="[
+                '/employees',
+                employee.id,
+                'risk-findings'
+              ]">
+
+              Risk Findings
+
+            </a>
+
+          </td>
+
+        </tr>
+
+
+        <tr *ngIf="filteredEmployees.length === 0">
+
+          <td
+            colspan="7"
+            class="empty-state">
+
+            No employees match your search.
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

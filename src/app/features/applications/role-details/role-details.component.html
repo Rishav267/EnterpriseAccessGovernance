@@ -1,0 +1,323 @@
+<div class="role-details-page">
+
+  <!-- Header -->
+  <div class="page-header">
+
+    <a
+      [routerLink]="[
+        '/applications',
+        applicationId
+      ]"
+      class="back-link">
+
+      ← Back to Application
+
+    </a>
+
+
+    <div
+      class="header-main"
+      *ngIf="role">
+
+      <div class="role-icon">
+        R
+      </div>
+
+      <div>
+
+        <div class="eyebrow">
+          APPLICATION ROLE
+        </div>
+
+        <h2>
+          {{ role.name }}
+        </h2>
+
+        <span class="role-code">
+          {{ role.code }}
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div *ngIf="!role">
+
+      <div class="eyebrow">
+        APPLICATION ROLE
+      </div>
+
+      <h2>
+        Role Details
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <!-- Loading -->
+  <div
+    *ngIf="loading"
+    class="state-card">
+
+    <div class="loading-spinner"></div>
+
+    <div>
+
+      <div class="state-title">
+        Loading permissions
+      </div>
+
+      <div class="state-description">
+        Fetching role and permission information...
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Error -->
+  <div
+    *ngIf="errorMessage && !loading"
+    class="state-card error-card">
+
+    <div class="state-icon">
+      !
+    </div>
+
+    <div>
+
+      <div class="state-title">
+        Unable to load role
+      </div>
+
+      <div class="state-description">
+        {{ errorMessage }}
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <ng-container
+    *ngIf="role && !loading">
+
+
+    <!-- Role Overview -->
+    <div class="role-card">
+
+      <div class="role-card-header">
+
+        <div>
+
+          <h3>
+            Role Overview
+          </h3>
+
+          <p>
+            Access characteristics and permissions associated with this role.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="role-overview">
+
+        <div class="detail-item">
+
+          <span class="label">
+            Role
+          </span>
+
+          <span class="value">
+            {{ role.name }}
+          </span>
+
+        </div>
+
+
+        <div class="detail-item">
+
+          <span class="label">
+            Code
+          </span>
+
+          <span class="value code-value">
+            {{ role.code }}
+          </span>
+
+        </div>
+
+
+        <div class="detail-item">
+
+          <span class="label">
+            Privilege
+          </span>
+
+          <span>
+
+            <span
+              class="privilege-badge"
+              [class.high-privilege]="role.isHighPrivilege">
+
+              {{
+                role.isHighPrivilege
+                  ? 'High Privilege'
+                  : 'Standard'
+              }}
+
+            </span>
+
+          </span>
+
+        </div>
+
+
+        <div class="detail-item">
+
+          <span class="label">
+            Permissions
+          </span>
+
+          <span class="value large-value">
+            {{ permissions.length }}
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Permissions -->
+    <div class="permissions-section">
+
+      <div class="section-header">
+
+        <div>
+
+          <div class="eyebrow">
+            ACCESS CONTROL
+          </div>
+
+          <h3>
+            Permissions
+          </h3>
+
+          <p>
+            Permissions assigned to this application role.
+          </p>
+
+        </div>
+
+        <div class="permission-total">
+
+          {{ permissions.length }}
+          {{
+            permissions.length === 1
+              ? 'Permission'
+              : 'Permissions'
+          }}
+
+        </div>
+
+      </div>
+
+
+      <!-- Empty -->
+      <div
+        *ngIf="permissions.length === 0"
+        class="empty-card">
+
+        <div class="empty-icon">
+          ✓
+        </div>
+
+        <div class="empty-title">
+          No permissions assigned
+        </div>
+
+        <div class="empty-description">
+          This role does not currently have any permissions assigned.
+        </div>
+
+      </div>
+
+
+      <!-- Permission Table -->
+      <div
+        *ngIf="permissions.length > 0"
+        class="permissions-card">
+
+        <div class="table-container">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Permission</th>
+                <th>Code</th>
+                <th>Description</th>
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              <tr
+                *ngFor="
+                  let permission
+                  of permissions
+                ">
+
+                <td>
+
+                  <div class="permission-name">
+                    {{ permission.name }}
+                  </div>
+
+                </td>
+
+
+                <td>
+
+                  <span class="permission-code">
+                    {{ permission.code }}
+                  </span>
+
+                </td>
+
+
+                <td>
+
+                  <span class="permission-description">
+                    {{ permission.description || 'No description available' }}
+                  </span>
+
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </ng-container>
+
+</div>

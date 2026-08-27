@@ -1,0 +1,523 @@
+.employee-details-page {
+  padding: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.page-header h2 {
+  margin: 10px 0 6px;
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: -0.4px;
+}
+
+.page-header p {
+  margin: 0;
+  color: #667085;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   BACK LINK
+   ========================================================= */
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  color: #475467;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.back-link:hover {
+  color: #1d4ed8;
+}
+
+
+/* =========================================================
+   EMPLOYEE DETAILS CARD
+   ========================================================= */
+
+.details-card {
+  background: #ffffff;
+  border: 1px solid #eaecf0;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+
+.detail-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+  padding: 18px 0;
+  border-bottom: 1px solid #f2f4f7;
+}
+
+.detail-row:first-child {
+  padding-top: 0;
+}
+
+.detail-row:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+
+.label {
+  color: #667085;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+
+.value {
+  color: #101828;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   EMPLOYMENT STATUS
+   ========================================================= */
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f2f4f7;
+  color: #475467;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status.active {
+  background: #ecfdf3;
+  color: #027a48;
+}
+
+
+/* =========================================================
+   RISK FINDINGS CARD
+   ========================================================= */
+
+.risk-findings-card {
+  margin-top: 24px;
+  background: #ffffff;
+  border: 1px solid #eaecf0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+
+/* =========================================================
+   RISK FINDINGS HEADER
+   ========================================================= */
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 24px;
+  border-bottom: 1px solid #eaecf0;
+  background: #fcfcfd;
+}
+
+
+.section-header h3 {
+  margin: 0 0 4px;
+  color: #101828;
+  font-size: 17px;
+  font-weight: 650;
+}
+
+
+.section-header p {
+  margin: 0;
+  color: #667085;
+  font-size: 13px;
+}
+
+
+.finding-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 28px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: #eef4ff;
+  color: #3538cd;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   RISK FINDINGS TABLE
+   ========================================================= */
+
+.risk-findings-table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+
+.risk-findings-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+
+.risk-findings-table th {
+  padding: 12px 20px;
+  background: #f9fafb;
+  border-bottom: 1px solid #eaecf0;
+
+  color: #667085;
+  font-size: 11px;
+  font-weight: 650;
+
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.45px;
+
+  white-space: nowrap;
+}
+
+
+.risk-findings-table td {
+  padding: 17px 20px;
+  border-bottom: 1px solid #f2f4f7;
+
+  color: #344054;
+  font-size: 13px;
+
+  vertical-align: middle;
+}
+
+
+.risk-findings-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+
+.risk-findings-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+
+.risk-findings-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* =========================================================
+   RULE CODE
+   ========================================================= */
+
+.risk-findings-table td:first-child {
+  color: #101828;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.risk-findings-table td:nth-child(2) {
+  max-width: 360px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   SEVERITY BADGES
+   ========================================================= */
+
+.severity,
+.finding-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 4px 9px;
+  border-radius: 999px;
+
+  font-size: 11px;
+  font-weight: 650;
+
+  white-space: nowrap;
+}
+
+
+/* Low */
+
+.severity.low {
+  background: #ecfdf3;
+  color: #027a48;
+}
+
+
+/* Medium */
+
+.severity.medium {
+  background: #fffaeb;
+  color: #b54708;
+}
+
+
+/* High */
+
+.severity.high {
+  background: #fff4ed;
+  color: #c4320a;
+}
+
+
+/* Critical */
+
+.severity.critical {
+  background: #fef3f2;
+  color: #b42318;
+}
+
+
+/* =========================================================
+   FINDING STATUS
+   ========================================================= */
+
+.finding-status.open {
+  background: #eef4ff;
+  color: #3538cd;
+}
+
+
+.finding-status.active {
+  background: #ecfdf3;
+  color: #027a48;
+}
+
+
+.finding-status.resolved {
+  background: #ecfdf3;
+  color: #027a48;
+}
+
+
+.finding-status.ignored {
+  background: #f2f4f7;
+  color: #475467;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.finding-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.finding-actions button {
+  border: 1px solid #d0d5dd;
+  background: #ffffff;
+
+  padding: 6px 11px;
+  border-radius: 6px;
+
+  color: #344054;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+
+.finding-actions button:hover {
+  background: #f9fafb;
+  border-color: #98a2b3;
+}
+
+
+/* Resolve */
+
+.finding-actions button:first-child:hover {
+  color: #027a48;
+  border-color: #6ce9a6;
+  background: #f0fdf4;
+}
+
+
+/* Ignore */
+
+.finding-actions button:last-child:hover {
+  color: #b54708;
+  border-color: #fedf89;
+  background: #fffcf5;
+}
+
+
+/* =========================================================
+   EMPTY / STATE
+   ========================================================= */
+
+.state-message {
+  padding: 24px;
+  color: #667085;
+  font-size: 14px;
+}
+
+
+.state-message.error {
+  color: #b42318;
+  background: #fef3f2;
+  border-radius: 8px;
+}
+
+
+.empty-state {
+  padding: 40px 24px;
+  text-align: center;
+
+  color: #667085;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   ACTIONS CARD
+   ========================================================= */
+
+.actions-card {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  margin-top: 24px;
+  padding: 18px 0;
+}
+
+
+.access-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 16px;
+
+  border-radius: 7px;
+
+  background: #1d4ed8;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease;
+}
+
+
+.access-button:hover {
+  background: #1e40af;
+}
+
+
+.access-button:active {
+  transform: translateY(1px);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .employee-details-page {
+    padding: 20px;
+  }
+
+
+  .detail-row {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+
+  .page-header h2 {
+    font-size: 24px;
+  }
+
+
+  .details-card {
+    padding: 18px;
+  }
+
+
+  .section-header {
+    padding: 18px;
+  }
+
+
+  .risk-findings-table th,
+  .risk-findings-table td {
+    padding: 12px 14px;
+  }
+
+
+  .actions-card {
+    justify-content: stretch;
+  }
+
+
+  .access-button {
+    width: 100%;
+  }
+
+}

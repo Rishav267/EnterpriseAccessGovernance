@@ -1,0 +1,258 @@
+<div class="applications-page">
+
+  <!-- Page Header -->
+  <div class="page-header">
+
+    <div class="header-content">
+      <div class="eyebrow">
+        ACCESS GOVERNANCE
+      </div>
+
+      <h2>Applications</h2>
+
+      <p>
+        Manage enterprise applications, roles, and permissions.
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+
+    <div class="search-wrapper">
+
+      <span class="search-icon">
+        ⌕
+      </span>
+
+      <input
+        type="text"
+        placeholder="Search by application name or code..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()" />
+
+    </div>
+
+    <div
+      class="result-count"
+      *ngIf="!loading && !errorMessage">
+
+      {{ filteredApplications.length }}
+      {{ filteredApplications.length === 1 ? 'application' : 'applications' }}
+
+    </div>
+
+  </div>
+
+
+  <!-- Loading -->
+  <div
+    *ngIf="loading"
+    class="state-card">
+
+    <div class="loading-spinner"></div>
+
+    <div>
+      <div class="state-title">
+        Loading applications
+      </div>
+
+      <div class="state-description">
+        Fetching registered enterprise applications...
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Error -->
+  <div
+    *ngIf="errorMessage && !loading"
+    class="state-card error-card">
+
+    <div class="state-icon">
+      !
+    </div>
+
+    <div>
+      <div class="state-title">
+        Unable to load applications
+      </div>
+
+      <div class="state-description">
+        {{ errorMessage }}
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Empty -->
+  <div
+    *ngIf="
+      !loading &&
+      !errorMessage &&
+      filteredApplications.length === 0
+    "
+    class="empty-card">
+
+    <div class="empty-icon">
+      ◫
+    </div>
+
+    <div class="empty-title">
+      No applications found
+    </div>
+
+    <div class="empty-description">
+      No applications match your current search.
+    </div>
+
+  </div>
+
+
+  <!-- Applications -->
+  <div
+    *ngIf="
+      !loading &&
+      !errorMessage &&
+      filteredApplications.length > 0
+    "
+    class="applications-card">
+
+    <div class="table-header">
+
+      <div>
+        <h3>Registered Applications</h3>
+
+        <p>
+          Enterprise applications available in the governance platform.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="table-container">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Application</th>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Roles</th>
+            <th></th>
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr
+            *ngFor="
+              let application
+              of filteredApplications
+            ">
+
+            <!-- Application -->
+            <td>
+
+              <div class="application-cell">
+
+                <div class="application-icon">
+                  {{ application.name.charAt(0).toUpperCase() }}
+                </div>
+
+                <div>
+
+                  <a
+                    class="application-name"
+                    [routerLink]="[
+                      '/applications',
+                      application.id
+                    ]">
+
+                    {{ application.name }}
+
+                  </a>
+
+                  <div class="application-subtitle">
+                    Enterprise application
+                  </div>
+
+                </div>
+
+              </div>
+
+            </td>
+
+
+            <!-- Code -->
+            <td>
+
+              <span class="application-code">
+                {{ application.code }}
+              </span>
+
+            </td>
+
+
+            <!-- Description -->
+            <td>
+
+              <span class="description">
+                {{ application.description || 'No description available' }}
+              </span>
+
+            </td>
+
+
+            <!-- Roles -->
+            <td>
+
+              <span class="role-count">
+                {{ application.roleCount }}
+              </span>
+
+              <span class="role-label">
+                {{ application.roleCount === 1 ? 'role' : 'roles' }}
+              </span>
+
+            </td>
+
+
+            <!-- Action -->
+            <td class="action-cell">
+
+              <a
+                [routerLink]="[
+                  '/applications',
+                  application.id
+                ]"
+                class="view-button">
+
+                View
+
+                <span>→</span>
+
+              </a>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,439 @@
+<div class="employee-details-page">
+
+  <!-- =========================================================
+       PAGE HEADER
+       ========================================================= -->
+
+  <div class="page-header">
+
+    <div>
+
+      <a
+        routerLink="/employees"
+        class="back-link">
+
+        ← Back to Employees
+
+      </a>
+
+
+      <h2 *ngIf="employee">
+
+        {{ employee.fullName }}
+
+      </h2>
+
+
+      <p *ngIf="employee">
+
+        Employee details and organizational information.
+
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       EMPLOYEE LOADING
+       ========================================================= -->
+
+  <div
+    *ngIf="loading"
+    class="state-message">
+
+    Loading employee details...
+
+  </div>
+
+
+  <!-- =========================================================
+       EMPLOYEE ERROR
+       ========================================================= -->
+
+  <div
+    *ngIf="errorMessage && !loading"
+    class="state-message error">
+
+    {{ errorMessage }}
+
+  </div>
+
+
+  <!-- =========================================================
+       EMPLOYEE DETAILS
+       ========================================================= -->
+
+  <div
+    *ngIf="employee && !loading"
+    class="details-card">
+
+
+    <!-- Employee ID / Name -->
+
+    <div class="detail-row">
+
+      <div class="detail-item">
+
+        <span class="label">
+          Employee ID
+        </span>
+
+        <span class="value">
+          {{ employee.employeeNumber }}
+        </span>
+
+      </div>
+
+
+      <div class="detail-item">
+
+        <span class="label">
+          Full Name
+        </span>
+
+        <span class="value">
+          {{ employee.fullName }}
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- Email / Status -->
+
+    <div class="detail-row">
+
+      <div class="detail-item">
+
+        <span class="label">
+          Email
+        </span>
+
+        <span class="value">
+          {{ employee.email }}
+        </span>
+
+      </div>
+
+
+      <div class="detail-item">
+
+        <span class="label">
+          Employment Status
+        </span>
+
+        <span
+          class="status"
+          [class.active]="
+            employee.employmentStatus === 'Active'
+          ">
+
+          {{ employee.employmentStatus }}
+
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- Department / Manager -->
+
+    <div class="detail-row">
+
+      <div class="detail-item">
+
+        <span class="label">
+          Department
+        </span>
+
+        <span class="value">
+          {{ employee.departmentName }}
+        </span>
+
+      </div>
+
+
+      <div class="detail-item">
+
+        <span class="label">
+          Manager
+        </span>
+
+        <span class="value">
+          {{ employee.managerName || '—' }}
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       RISK FINDINGS
+       ========================================================= -->
+
+  <div
+    *ngIf="employee && !loading"
+    class="risk-findings-card">
+
+
+    <!-- Section Header -->
+
+    <div class="section-header">
+
+      <div>
+
+        <h3>
+          Risk Findings
+        </h3>
+
+        <p>
+          Security and access risks identified for this employee.
+        </p>
+
+      </div>
+
+
+      <span class="finding-count">
+
+        {{ riskFindings.length }}
+
+      </span>
+
+    </div>
+
+
+    <!-- Risk Findings Loading -->
+
+    <div
+      *ngIf="riskFindingsLoading"
+      class="state-message">
+
+      Loading risk findings...
+
+    </div>
+
+
+    <!-- Risk Findings Error -->
+
+    <div
+      *ngIf="
+        riskFindingsErrorMessage &&
+        !riskFindingsLoading
+      "
+      class="state-message error">
+
+      {{ riskFindingsErrorMessage }}
+
+    </div>
+
+
+    <!-- No Findings -->
+
+    <div
+      *ngIf="
+        !riskFindingsLoading &&
+        !riskFindingsErrorMessage &&
+        riskFindings.length === 0
+      "
+      class="empty-state">
+
+      No risk findings for this employee.
+
+    </div>
+
+
+    <!-- Risk Findings Table -->
+
+    <div
+      *ngIf="
+        !riskFindingsLoading &&
+        !riskFindingsErrorMessage &&
+        riskFindings.length > 0
+      "
+      class="risk-findings-table-container">
+
+
+      <table class="risk-findings-table">
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Rule
+            </th>
+
+            <th>
+              Description
+            </th>
+
+            <th>
+              Severity
+            </th>
+
+            <th>
+              Status
+            </th>
+
+            <th>
+              Detected
+            </th>
+
+            <th>
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr
+            *ngFor="let finding of riskFindings">
+
+
+            <!-- Rule -->
+
+            <td>
+
+              <strong>
+                {{ finding.ruleCode }}
+              </strong>
+
+            </td>
+
+
+            <!-- Description -->
+
+            <td>
+
+              {{ finding.description }}
+
+            </td>
+
+
+            <!-- Severity -->
+
+            <td>
+
+              <span
+                class="severity"
+                [ngClass]="
+                  finding.severity.toLowerCase()
+                ">
+
+                {{ finding.severity }}
+
+              </span>
+
+            </td>
+
+
+            <!-- Status -->
+
+            <td>
+
+              <span
+                class="finding-status"
+                [ngClass]="
+                  finding.status.toLowerCase()
+                ">
+
+                {{ finding.status }}
+
+              </span>
+
+            </td>
+
+
+            <!-- Detected Date -->
+
+            <td>
+
+              {{ finding.detectedAtUtc | date:'medium' }}
+
+            </td>
+
+
+            <!-- Actions -->
+
+            <td>
+
+              <div class="finding-actions">
+
+
+                <!-- Resolve -->
+
+                <button
+                  type="button"
+                  *ngIf="
+                    finding.status !== 'Resolved'
+                  "
+                  (click)="resolveRiskFinding(finding)">
+
+                  Resolve
+
+                </button>
+
+
+                <!-- Ignore -->
+
+                <button
+                  type="button"
+                  *ngIf="
+                    finding.status !== 'Ignored'
+                  "
+                  (click)="ignoreRiskFinding(finding)">
+
+                  Ignore
+
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       EMPLOYEE ACTIONS
+       ========================================================= -->
+
+  <div
+    *ngIf="employee && !loading"
+    class="actions-card">
+
+
+    <a
+      class="access-button"
+      [routerLink]="[
+        '/employees',
+        employee.id,
+        'access-assignments'
+      ]">
+
+      View Access Assignments
+
+    </a>
+
+  </div>
+
+</div>
