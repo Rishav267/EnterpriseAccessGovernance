@@ -1,0 +1,14 @@
+﻿namespace EnterpriseAccessGovernance.Application.Features.Reports.DTOs;
+
+public sealed class AccessByApplicationDto
+{
+    public Guid ApplicationId { get; init; }
+
+    public string ApplicationName { get; init; } = string.Empty;
+
+    public int EmployeeCount { get; init; }
+
+    public int AccessAssignmentCount { get; init; }
+
+    public int ActiveAccessAssignmentCount { get; init; }
+}

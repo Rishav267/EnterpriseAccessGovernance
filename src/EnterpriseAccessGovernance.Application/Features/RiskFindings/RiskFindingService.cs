@@ -108,4 +108,50 @@ public sealed class RiskFindingService
 
         return riskFinding;
     }
+
+    public async Task<PagedRiskFindingResultDto>
+    GetPagedAsync(
+        RiskFindingQueryDto query,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(query);
+
+        if (query.PageNumber <= 0)
+        {
+            throw new ArgumentException(
+                "Page number must be greater than zero.",
+                nameof(query.PageNumber));
+        }
+
+        if (query.PageSize <= 0 ||
+            query.PageSize > 100)
+        {
+            throw new ArgumentException(
+                "Page size must be between 1 and 100.",
+                nameof(query.PageSize));
+        }
+
+        var result =
+            await _riskFindingRepository
+                .GetPagedAsync(
+                    query,
+                    cancellationToken);
+
+        return new PagedRiskFindingResultDto
+        {
+            Items = result.Items,
+            PageNumber = query.PageNumber,
+            PageSize = query.PageSize,
+            TotalCount = result.TotalCount
+        };
+    }
+
+    public Task<RiskFindingSummaryDto>
+    GetSummaryAsync(
+        CancellationToken cancellationToken = default)
+    {
+        return _riskFindingRepository
+            .GetSummaryAsync(
+                cancellationToken);
+    }
 }

@@ -9,6 +9,15 @@ public interface IRiskFindingService
             Guid employeeId,
             CancellationToken cancellationToken = default);
 
+    Task<PagedRiskFindingResultDto>
+        GetPagedAsync(
+            RiskFindingQueryDto query,
+            CancellationToken cancellationToken = default);
+
+    Task<RiskFindingSummaryDto>
+        GetSummaryAsync(
+            CancellationToken cancellationToken = default);
+
     Task ResolveAsync(
         Guid employeeId,
         Guid riskFindingId,

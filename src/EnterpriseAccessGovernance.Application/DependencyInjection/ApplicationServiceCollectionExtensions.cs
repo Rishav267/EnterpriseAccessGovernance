@@ -6,6 +6,7 @@ using EnterpriseAccessGovernance.Application.Features.Dashboard;
 using EnterpriseAccessGovernance.Application.Features.Employees;
 using EnterpriseAccessGovernance.Application.Features.Imports.Interfaces;
 using EnterpriseAccessGovernance.Application.Features.Imports.Services;
+using EnterpriseAccessGovernance.Application.Features.Reports;
 using EnterpriseAccessGovernance.Application.Features.RiskFindings;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -29,6 +30,8 @@ public static class ApplicationServiceCollectionExtensions
         services.AddScoped<IApplicationRoleService, ApplicationRoleService>();
 
         services.AddScoped<IRiskFindingService, RiskFindingService>();
+        services.AddScoped<IRiskDetectionService, RiskDetectionService>();
+        services.AddScoped<IReportService, ReportService>();
 
         return services;
     }

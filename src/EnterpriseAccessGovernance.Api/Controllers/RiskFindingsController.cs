@@ -9,12 +9,13 @@ namespace EnterpriseAccessGovernance.Api.Controllers;
 public sealed class RiskFindingsController : ControllerBase
 {
     private readonly IRiskFindingService _riskFindingService;
+    private readonly IRiskDetectionService _riskDetectionService;
 
     public RiskFindingsController(
-        IRiskFindingService riskFindingService)
+        IRiskFindingService riskFindingService, IRiskDetectionService riskDetectionService)
     {
-        _riskFindingService =
-            riskFindingService;
+        _riskFindingService = riskFindingService;
+        _riskDetectionService = riskDetectionService;
     }
 
     [HttpGet]

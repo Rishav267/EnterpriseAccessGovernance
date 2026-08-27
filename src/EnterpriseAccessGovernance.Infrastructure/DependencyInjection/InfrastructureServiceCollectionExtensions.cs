@@ -135,6 +135,8 @@ public static class InfrastructureServiceCollectionExtensions
         services.AddScoped<IApplicationRepository, ApplicationRepository>();
         services.AddScoped<IApplicationRoleRepository, ApplicationRoleRepository>();
         services.AddScoped<IRiskFindingRepository, RiskFindingRepository>();
+        services.AddScoped<IReportRepository, ReportRepository>();
+        services.AddScoped<IRiskDetectionRepository, RiskDetectionRepository>();
 
         return services;
     }
