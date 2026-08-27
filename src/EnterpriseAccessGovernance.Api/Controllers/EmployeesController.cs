@@ -1,4 +1,5 @@
-﻿using EnterpriseAccessGovernance.Application.Features.Employees;
+﻿using EnterpriseAccessGovernance.Application.Common.Models;
+using EnterpriseAccessGovernance.Application.Features.Employees;
 using EnterpriseAccessGovernance.Application.Features.Employees.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,5 +52,19 @@ public sealed class EmployeesController : ControllerBase
         }
 
         return Ok(employee);
+    }
+
+    [HttpGet("search")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<PagedResultDto<EmployeeListItemDto>>> Search(
+    [FromQuery] EmployeeSearchRequest request,
+    CancellationToken cancellationToken)
+    {
+        var result =
+            await _employeeService.SearchAsync(
+                request,
+                cancellationToken);
+
+        return Ok(result);
     }
 }

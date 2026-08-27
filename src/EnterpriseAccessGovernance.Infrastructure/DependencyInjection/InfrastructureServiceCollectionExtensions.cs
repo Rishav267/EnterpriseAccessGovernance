@@ -1,9 +1,4 @@
 ﻿using EnterpriseAccessGovernance.Application.Common.Interfaces;
-using EnterpriseAccessGovernance.Application.Features.AccessAssignments;
-using EnterpriseAccessGovernance.Application.Features.ApplicationRoles;
-using EnterpriseAccessGovernance.Application.Features.Applications;
-using EnterpriseAccessGovernance.Application.Features.Employees;
-using EnterpriseAccessGovernance.Application.Features.RiskFindings;
 using EnterpriseAccessGovernance.Infrastructure.Import.Detection;
 using EnterpriseAccessGovernance.Infrastructure.Import.HeaderNormalization;
 using EnterpriseAccessGovernance.Infrastructure.Import.Mapping;
@@ -136,15 +131,10 @@ public static class InfrastructureServiceCollectionExtensions
             ImportDataRepository>();
 
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-        services.AddScoped<IEmployeeService, EmployeeService>();
-        services.AddScoped<IAccessAssignmentService, AccessAssignmentService>();
         services.AddScoped<IAccessAssignmentRepository, AccessAssignmentRepository>();
         services.AddScoped<IApplicationRepository, ApplicationRepository>();
-        services.AddScoped<IApplicationService, ApplicationService>();
         services.AddScoped<IApplicationRoleRepository, ApplicationRoleRepository>();
-        services.AddScoped<IApplicationRoleService, ApplicationRoleService>();
         services.AddScoped<IRiskFindingRepository, RiskFindingRepository>();
-        services.AddScoped<IRiskFindingService, RiskFindingService>();
 
         return services;
     }

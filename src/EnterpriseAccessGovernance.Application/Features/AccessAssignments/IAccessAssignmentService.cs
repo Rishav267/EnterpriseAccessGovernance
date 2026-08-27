@@ -8,13 +8,31 @@ public interface IAccessAssignmentService
         GetByEmployeeIdAsync(
             Guid employeeId,
             CancellationToken cancellationToken = default);
+
     Task ApproveAsync(
-    Guid employeeId,
-    Guid accessAssignmentId,
-    CancellationToken cancellationToken = default);
+        Guid employeeId,
+        Guid accessAssignmentId,
+        Guid reviewerEmployeeId,
+        string? comment,
+        CancellationToken cancellationToken = default);
 
     Task RevokeAsync(
-    Guid employeeId,
-    Guid accessAssignmentId,
-    CancellationToken cancellationToken = default);
+        Guid employeeId,
+        Guid accessAssignmentId,
+        Guid reviewerEmployeeId,
+        string? comment,
+        CancellationToken cancellationToken = default);
+
+    Task RequestModificationAsync(
+        Guid employeeId,
+        Guid accessAssignmentId,
+        Guid reviewerEmployeeId,
+        string comment,
+        CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyCollection<CertificationReviewDto>>
+        GetCertificationHistoryAsync(
+            Guid employeeId,
+            Guid accessAssignmentId,
+            CancellationToken cancellationToken = default);
 }

@@ -82,8 +82,8 @@ public sealed class AccessAssignmentRepository
     }
 
     public async Task<AccessAssignment?> GetByIdAsync(
-    Guid accessAssignmentId,
-    CancellationToken cancellationToken = default)
+        Guid accessAssignmentId,
+        CancellationToken cancellationToken = default)
     {
         return await _dbContext.AccessAssignments
             .SingleOrDefaultAsync(
@@ -91,8 +91,61 @@ public sealed class AccessAssignmentRepository
                 cancellationToken);
     }
 
+    public async Task<IReadOnlyCollection<CertificationReviewDto>>
+        GetCertificationHistoryAsync(
+            Guid employeeId,
+            Guid accessAssignmentId,
+            CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.CertificationReviews
+            .AsNoTracking()
+            .Where(x =>
+                x.AccessAssignmentId == accessAssignmentId &&
+                x.AccessAssignment != null &&
+                x.AccessAssignment.EmployeeId == employeeId)
+            .OrderByDescending(x => x.ReviewedAtUtc)
+            .Select(x => new CertificationReviewDto
+            {
+                Id = x.Id,
+
+                AccessAssignmentId =
+                    x.AccessAssignmentId,
+
+                ReviewerEmployeeId =
+                    x.ReviewerEmployeeId,
+
+                Decision =
+                    x.Decision.ToString(),
+
+                Comment =
+                    x.Comment,
+
+                ReviewedAtUtc =
+                    x.ReviewedAtUtc
+            })
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task AddCertificationReviewAsync(
+        CertificationReview review,
+        CancellationToken cancellationToken = default)
+    {
+        await _dbContext.CertificationReviews.AddAsync(
+            review,
+            cancellationToken);
+    }
+
+    public async Task AddAuditLogAsync(
+        AuditLog auditLog,
+        CancellationToken cancellationToken = default)
+    {
+        await _dbContext.AuditLogs.AddAsync(
+            auditLog,
+            cancellationToken);
+    }
+
     public Task SaveChangesAsync(
-    CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default)
     {
         return _dbContext.SaveChangesAsync(
             cancellationToken);

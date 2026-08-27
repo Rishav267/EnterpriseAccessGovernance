@@ -1,4 +1,5 @@
 ﻿using EnterpriseAccessGovernance.Application.Common.Interfaces;
+using EnterpriseAccessGovernance.Application.Common.Models;
 using EnterpriseAccessGovernance.Application.Features.Employees.DTOs;
 
 namespace EnterpriseAccessGovernance.Application.Features.Employees;
@@ -29,6 +30,17 @@ public sealed class EmployeeService : IEmployeeService
     {
         return _employeeRepository.GetByIdAsync(
             id,
+            cancellationToken);
+    }
+
+    public Task<PagedResultDto<EmployeeListItemDto>> SearchAsync(
+    EmployeeSearchRequest request,
+    CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        return _employeeRepository.SearchAsync(
+            request,
             cancellationToken);
     }
 }
