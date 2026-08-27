@@ -1,0 +1,441 @@
+<div class="risk-management-page">
+
+  <!-- Page Header -->
+  <div class="page-header">
+
+    <div>
+
+      <h2>Risk Management</h2>
+
+      <p>
+        Monitor, review and manage access governance risks
+        across the organization.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- Filters -->
+  <div class="filters-card">
+
+    <!-- Search -->
+    <div class="filter-group search-filter">
+
+      <label for="searchTerm">
+        Search
+      </label>
+
+      <input
+        id="searchTerm"
+        type="text"
+        [(ngModel)]="searchTerm"
+        (keyup.enter)="applyFilters()"
+        placeholder="Search employee, rule or description">
+
+    </div>
+
+
+    <!-- Severity -->
+    <div class="filter-group">
+
+      <label for="severity">
+        Severity
+      </label>
+
+      <select
+        id="severity"
+        [(ngModel)]="selectedSeverity">
+
+        <option value="">
+          All Severities
+        </option>
+
+        <option
+          *ngFor="let severity of severities"
+          [value]="severity">
+
+          {{ severity }}
+
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- Status -->
+    <div class="filter-group">
+
+      <label for="status">
+        Status
+      </label>
+
+      <select
+        id="status"
+        [(ngModel)]="selectedStatus">
+
+        <option value="">
+          All Statuses
+        </option>
+
+        <option
+          *ngFor="let status of statuses"
+          [value]="status">
+
+          {{ status }}
+
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- Filter Actions -->
+    <div class="filter-actions">
+
+      <button
+        type="button"
+        class="primary-button"
+        (click)="applyFilters()">
+
+        Search
+
+      </button>
+
+
+      <button
+        type="button"
+        class="secondary-button"
+        (click)="clearFilters()">
+
+        Clear
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- Loading -->
+  <div
+    *ngIf="loading"
+    class="state-message">
+
+    Loading risk findings...
+
+  </div>
+
+
+  <!-- Error -->
+  <div
+    *ngIf="errorMessage && !loading"
+    class="state-message error">
+
+    {{ errorMessage }}
+
+  </div>
+
+
+  <!-- Empty State -->
+  <div
+    *ngIf="
+      !loading &&
+      !errorMessage &&
+      findings.length === 0
+    "
+    class="state-message">
+
+    No risk findings found matching the selected filters.
+
+  </div>
+
+
+  <!-- Results -->
+  <div
+    *ngIf="
+      !loading &&
+      !errorMessage &&
+      findings.length > 0
+    "
+    class="table-card">
+
+
+    <!-- Table Header -->
+    <div class="table-header">
+
+      <div>
+
+        <h3>
+          Risk Findings
+        </h3>
+
+        <p>
+          {{ totalCount }}
+          finding{{ totalCount === 1 ? '' : 's' }}
+          found
+        </p>
+
+      </div>
+
+
+      <!-- Page Size -->
+      <div class="page-size">
+
+        <label for="pageSize">
+          Rows
+        </label>
+
+        <select
+          id="pageSize"
+          [(ngModel)]="pageSize"
+          (change)="changePageSize()">
+
+          <option [ngValue]="10">
+            10
+          </option>
+
+          <option [ngValue]="25">
+            25
+          </option>
+
+          <option [ngValue]="50">
+            50
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <!-- Table -->
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Employee</th>
+            <th>Rule</th>
+            <th>Description</th>
+            <th>Severity</th>
+            <th>Status</th>
+            <th>Detected</th>
+            <th>Actions</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr
+            *ngFor="
+              let finding of findings;
+              trackBy: trackByFindingId
+            ">
+
+
+            <!-- Employee -->
+            <td>
+
+              <div class="employee-cell">
+
+                <strong>
+                  {{ finding.employeeName }}
+                </strong>
+
+                <span
+                  *ngIf="finding.employeeNumber">
+
+                  {{ finding.employeeNumber }}
+
+                </span>
+
+              </div>
+
+            </td>
+
+
+            <!-- Rule -->
+            <td>
+
+              <strong class="rule-code">
+
+                {{ finding.ruleCode }}
+
+              </strong>
+
+            </td>
+
+
+            <!-- Description -->
+            <td class="description">
+
+              {{ finding.description }}
+
+            </td>
+
+
+            <!-- Severity -->
+            <td>
+
+              <span
+                class="severity"
+                [class.low]="finding.severity === 'Low'"
+                [class.medium]="finding.severity === 'Medium'"
+                [class.high]="finding.severity === 'High'"
+                [class.critical]="finding.severity === 'Critical'">
+
+                {{ finding.severity }}
+
+              </span>
+
+            </td>
+
+
+            <!-- Status -->
+            <td>
+
+              <span
+                class="status"
+                [class.open]="finding.status === 'Open'"
+                [class.resolved]="finding.status === 'Resolved'"
+                [class.ignored]="finding.status === 'Ignored'">
+
+                {{ finding.status }}
+
+              </span>
+
+            </td>
+
+
+            <!-- Detected -->
+            <td>
+
+              {{
+                finding.detectedAtUtc
+                  | date:'mediumDate'
+              }}
+
+            </td>
+
+
+            <!-- Actions -->
+            <td class="actions">
+
+              <button
+                *ngIf="finding.status === 'Open'"
+                type="button"
+                class="resolve-button"
+                [disabled]="
+                  actionInProgressId === finding.id
+                "
+                (click)="resolve(finding)">
+
+                {{
+                  actionInProgressId === finding.id
+                    ? 'Processing...'
+                    : 'Resolve'
+                }}
+
+              </button>
+
+
+              <button
+                *ngIf="finding.status === 'Open'"
+                type="button"
+                class="ignore-button"
+                [disabled]="
+                  actionInProgressId === finding.id
+                "
+                (click)="ignore(finding)">
+
+                {{
+                  actionInProgressId === finding.id
+                    ? 'Processing...'
+                    : 'Ignore'
+                }}
+
+              </button>
+
+
+              <span
+                *ngIf="finding.status !== 'Open'"
+                class="no-action">
+
+                —
+
+              </span>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <!-- Pagination -->
+    <div class="pagination">
+
+      <div>
+
+        Page
+
+        <strong>
+          {{ pageNumber }}
+        </strong>
+
+        of
+
+        <strong>
+          {{ totalPages }}
+        </strong>
+
+      </div>
+
+
+      <div class="pagination-actions">
+
+        <button
+          type="button"
+          class="secondary-button"
+          [disabled]="pageNumber <= 1"
+          (click)="previousPage()">
+
+          Previous
+
+        </button>
+
+
+        <button
+          type="button"
+          class="secondary-button"
+          [disabled]="
+            pageNumber >= totalPages
+          "
+          (click)="nextPage()">
+
+          Next
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

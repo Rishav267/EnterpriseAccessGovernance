@@ -1,0 +1,294 @@
+.risk-management-page {
+padding: 24px;
+}
+
+.page-header {
+margin-bottom: 24px;
+}
+
+.page-header h2 {
+margin: 0 0 8px;
+}
+
+.page-header p {
+margin: 0;
+opacity: 0.7;
+}
+
+.filters-card {
+display: flex;
+align-items: flex-end;
+gap: 16px;
+flex-wrap: wrap;
+
+margin-bottom: 24px;
+padding: 20px;
+
+border: 1px solid #e5e7eb;
+border-radius: 8px;
+}
+
+.filter-group {
+display: flex;
+flex-direction: column;
+gap: 6px;
+min-width: 160px;
+}
+
+.search-filter {
+flex: 1;
+min-width: 250px;
+}
+
+.filter-group label,
+.page-size label {
+font-size: 13px;
+font-weight: 600;
+}
+
+.filter-group input,
+.filter-group select,
+.page-size select {
+min-height: 38px;
+padding: 8px 10px;
+
+border: 1px solid #d1d5db;
+border-radius: 6px;
+}
+
+.filter-actions {
+display: flex;
+gap: 8px;
+}
+
+.primary-button,
+.secondary-button,
+.resolve-button,
+.ignore-button {
+min-height: 38px;
+padding: 8px 14px;
+
+border-radius: 6px;
+cursor: pointer;
+}
+
+.primary-button {
+border: none;
+}
+
+.secondary-button {
+background: transparent;
+border: 1px solid #d1d5db;
+}
+
+.state-message {
+padding: 48px 24px;
+text-align: center;
+}
+
+.state-message.error {
+color: #b91c1c;
+}
+
+.table-card {
+border: 1px solid #e5e7eb;
+border-radius: 8px;
+overflow: hidden;
+}
+
+.table-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+gap: 16px;
+padding: 18px 20px;
+
+border-bottom: 1px solid #e5e7eb;
+}
+
+.table-header h3 {
+margin: 0 0 4px;
+}
+
+.table-header p {
+margin: 0;
+font-size: 14px;
+opacity: 0.7;
+}
+
+.page-size {
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.table-wrapper {
+overflow-x: auto;
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+}
+
+th,
+td {
+padding: 14px 16px;
+text-align: left;
+vertical-align: middle;
+
+border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+font-size: 13px;
+font-weight: 600;
+white-space: nowrap;
+}
+
+tbody tr:last-child td {
+border-bottom: none;
+}
+
+.employee-cell {
+display: flex;
+flex-direction: column;
+gap: 3px;
+}
+
+.employee-cell span {
+font-size: 12px;
+opacity: 0.65;
+}
+
+.rule-code {
+white-space: nowrap;
+}
+
+.description {
+min-width: 260px;
+max-width: 420px;
+}
+
+.severity,
+.status {
+display: inline-block;
+
+padding: 5px 10px;
+
+border-radius: 999px;
+
+font-size: 12px;
+font-weight: 600;
+}
+
+/* Severity */
+
+.severity.low {
+color: #166534;
+}
+
+.severity.medium {
+color: #a16207;
+}
+
+.severity.high {
+color: #c2410c;
+}
+
+.severity.critical {
+color: #b91c1c;
+}
+
+/* Status */
+
+.status.open {
+color: #b45309;
+}
+
+.status.resolved {
+color: #15803d;
+}
+
+.status.ignored {
+color: #6b7280;
+}
+
+.actions {
+white-space: nowrap;
+}
+
+.resolve-button,
+.ignore-button {
+margin-right: 8px;
+
+border: none;
+}
+
+.resolve-button:disabled,
+.ignore-button:disabled,
+.secondary-button:disabled {
+cursor: not-allowed;
+opacity: 0.5;
+}
+
+.no-action {
+opacity: 0.5;
+}
+
+.pagination {
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+gap: 16px;
+padding: 16px 20px;
+
+border-top: 1px solid #e5e7eb;
+}
+
+.pagination-actions {
+display: flex;
+gap: 8px;
+}
+
+@media (max-width: 768px) {
+
+.risk-management-page {
+padding: 16px;
+}
+
+.filters-card {
+flex-direction: column;
+align-items: stretch;
+}
+
+.filter-group,
+.search-filter {
+width: 100%;
+min-width: 0;
+}
+
+.filter-actions {
+width: 100%;
+}
+
+.filter-actions button {
+flex: 1;
+}
+
+.table-header,
+.pagination {
+align-items: flex-start;
+flex-direction: column;
+}
+
+.pagination-actions {
+width: 100%;
+}
+
+.pagination-actions button {
+flex: 1;
+}
+}

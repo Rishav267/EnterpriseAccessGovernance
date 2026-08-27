@@ -115,3 +115,19 @@ th {
 .no-action {
   opacity: 0.5;
 }
+.header-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.back-link,
+.management-link {
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.management-link {
+  font-weight: 600;
+}

@@ -81,8 +81,8 @@ export class RiskFindingsComponent implements OnInit {
       )
       .subscribe({
         next: () => {
-          this.loadRiskFindings();
           this.actionInProgressId = null;
+          this.loadRiskFindings();
         },
         error: () => {
           this.errorMessage =
@@ -106,8 +106,8 @@ export class RiskFindingsComponent implements OnInit {
       )
       .subscribe({
         next: () => {
-          this.loadRiskFindings();
           this.actionInProgressId = null;
+          this.loadRiskFindings();
         },
         error: () => {
           this.errorMessage =

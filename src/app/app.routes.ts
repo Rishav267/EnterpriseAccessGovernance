@@ -66,6 +66,19 @@ export const routes: Routes = [
       ).then(m => m.RiskFindingsComponent)
   },
   {
+    path: 'reports',
+    loadComponent: () =>
+      import('./features/reports/reports.component')
+        .then(m => m.ReportsComponent)
+  },
+  {
+    path: 'risk-management',
+    loadComponent: () =>
+      import(
+        './features/risk-management/risk-management.component'
+      ).then(m => m.RiskManagementComponent)
+  },
+  {
     path: '**',
     redirectTo: 'dashboard'
   }
