@@ -1,0 +1,564 @@
+<div class="imports-page">
+
+  <!-- ===================================================== -->
+  <!-- HEADER -->
+  <!-- ===================================================== -->
+
+  <div class="page-header">
+
+    <div>
+
+      <h1>
+        Import Data
+      </h1>
+
+      <p>
+        Import employee, application, access and governance
+        data from CSV or XLSX files.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- ERROR -->
+  <!-- ===================================================== -->
+
+  <div
+    *ngIf="errorMessage"
+    class="alert alert-error">
+
+    <span class="alert-icon">
+      !
+    </span>
+
+    <div>
+      {{ errorMessage }}
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- IMPORT RESULT -->
+  <!-- ===================================================== -->
+
+  <div
+    *ngIf="uploadResult"
+    class="result-card"
+    [class.result-success]="isImportSuccessful"
+    [class.result-partial]="isPartialImport"
+    [class.result-failed]="isImportFailed">
+
+    <!-- =================================================== -->
+    <!-- RESULT HEADER -->
+    <!-- =================================================== -->
+
+    <div class="result-header">
+
+      <div
+        class="result-icon"
+        [class.success-icon]="isImportSuccessful"
+        [class.partial-icon]="isPartialImport"
+        [class.failed-icon]="isImportFailed">
+
+        <ng-container *ngIf="isImportSuccessful">
+          ✓
+        </ng-container>
+
+        <ng-container *ngIf="isPartialImport">
+          !
+        </ng-container>
+
+        <ng-container *ngIf="isImportFailed">
+          ×
+        </ng-container>
+
+      </div>
+
+
+      <div>
+
+        <h2 *ngIf="isImportSuccessful">
+          Import Completed Successfully
+        </h2>
+
+        <h2 *ngIf="isPartialImport">
+          Import Completed with Errors
+        </h2>
+
+        <h2 *ngIf="isImportFailed">
+          Import Failed
+        </h2>
+
+
+        <p *ngIf="isImportSuccessful">
+          All records were imported successfully.
+        </p>
+
+        <p *ngIf="isPartialImport">
+          The file was processed, but some records could not
+          be imported.
+        </p>
+
+        <p *ngIf="isImportFailed">
+          The file was processed, but no records were imported.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- STATUS -->
+    <!-- =================================================== -->
+
+    <div class="result-status">
+
+      <span class="result-status-label">
+        Status
+      </span>
+
+      <span
+        class="status-badge"
+        [class.success]="isImportSuccessful"
+        [class.partial]="isPartialImport"
+        [class.failed]="isImportFailed">
+
+        {{ uploadResult.status }}
+
+      </span>
+
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- SUMMARY -->
+    <!-- =================================================== -->
+
+    <div class="result-grid">
+
+      <div class="result-item">
+
+        <span>
+          Total Records
+        </span>
+
+        <strong>
+          {{ uploadResult.totalRecords }}
+        </strong>
+
+      </div>
+
+
+      <div class="result-item success-value">
+
+        <span>
+          Successful
+        </span>
+
+        <strong>
+          {{ uploadResult.successfulRecords }}
+        </strong>
+
+      </div>
+
+
+      <div
+        class="result-item"
+        [class.failed-value]="
+          uploadResult.failedRecords > 0
+        ">
+
+        <span>
+          Failed
+        </span>
+
+        <strong>
+          {{ uploadResult.failedRecords }}
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- IMPORT ERRORS -->
+    <!-- =================================================== -->
+
+    <div
+      *ngIf="
+        uploadResult.errors &&
+        uploadResult.errors.length > 0
+      "
+      class="import-errors">
+
+      <div class="errors-header">
+
+        <h3>
+          Records Not Imported
+        </h3>
+
+        <span>
+          {{ uploadResult.errors.length }}
+        </span>
+
+      </div>
+
+
+      <div class="error-list">
+
+        <div
+          *ngFor="
+            let error of uploadResult.errors;
+            trackBy: trackByError
+          "
+          class="import-error-item">
+
+          <span>
+            !
+          </span>
+
+          <div>
+            {{ error }}
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- BATCH INFORMATION -->
+    <!-- =================================================== -->
+
+    <div class="batch-information">
+
+      <span>
+        Import Batch ID
+      </span>
+
+      <code>
+        {{ uploadResult.importBatchId }}
+      </code>
+
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- ACTIONS -->
+    <!-- =================================================== -->
+
+    <div class="result-actions">
+
+      <button
+        type="button"
+        class="secondary-button"
+        (click)="reset()">
+
+        Import Another File
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- UPLOAD -->
+  <!-- ===================================================== -->
+
+  <div
+    *ngIf="!uploadResult"
+    class="upload-card">
+
+    <div class="card-header">
+
+      <div>
+
+        <h2>
+          Upload Data File
+        </h2>
+
+        <p>
+          Select a CSV or XLSX file containing enterprise
+          governance data.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- DROP ZONE -->
+    <!-- =================================================== -->
+
+    <div
+      class="drop-zone"
+      [class.drag-over]="isDragOver"
+      [class.has-file]="selectedFile"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)">
+
+
+      <!-- ================================================= -->
+      <!-- NO FILE SELECTED -->
+      <!-- ================================================= -->
+
+      <ng-container
+        *ngIf="!selectedFile">
+
+        <div class="upload-icon">
+          ⇧
+        </div>
+
+        <h3>
+          Drag and drop your file here
+        </h3>
+
+        <p>
+          or
+        </p>
+
+        <label
+          class="browse-button">
+
+          Browse Files
+
+          <input
+            type="file"
+            accept=".csv,.xlsx"
+            hidden
+            (change)="onFileSelected($event)" />
+
+        </label>
+
+
+        <div class="file-hint">
+
+          Supported formats:
+          <strong>
+            CSV, XLSX
+          </strong>
+
+          <span>
+            •
+          </span>
+
+          Maximum size:
+          <strong>
+            {{ maxFileSizeMb }} MB
+          </strong>
+
+        </div>
+
+      </ng-container>
+
+
+      <!-- ================================================= -->
+      <!-- SELECTED FILE -->
+      <!-- ================================================= -->
+
+      <ng-container
+        *ngIf="selectedFile">
+
+        <div class="selected-file">
+
+          <div class="file-icon">
+
+            {{ getFileExtension(
+              selectedFile.name
+            ) }}
+
+          </div>
+
+
+          <div class="file-information">
+
+            <div class="file-name">
+
+              {{ selectedFile.name }}
+
+            </div>
+
+            <div class="file-size">
+
+              {{ getFileSize(
+                selectedFile.size
+              ) }}
+
+            </div>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="remove-button"
+            [disabled]="uploading"
+            (click)="reset()">
+
+            ×
+
+          </button>
+
+        </div>
+
+      </ng-container>
+
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- UPLOAD ACTION -->
+    <!-- =================================================== -->
+
+    <div class="upload-footer">
+
+      <div class="upload-information">
+
+        <span class="info-icon">
+          i
+        </span>
+
+        <span>
+          Make sure the uploaded file uses the supported
+          governance data format.
+        </span>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="upload-button"
+        [disabled]="!selectedFile || uploading"
+        (click)="upload()">
+
+        <span
+          *ngIf="uploading"
+          class="button-spinner">
+        </span>
+
+        {{
+          uploading
+            ? 'Importing...'
+            : 'Start Import'
+        }}
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- IMPORT PROCESS -->
+  <!-- ===================================================== -->
+
+  <div
+    *ngIf="uploading"
+    class="processing-card">
+
+    <div class="processing-spinner"></div>
+
+    <div>
+
+      <strong>
+        Processing import...
+      </strong>
+
+      <p>
+        The system is validating and processing the
+        uploaded records. Please do not close this page.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- INFORMATION -->
+  <!-- ===================================================== -->
+
+  <div class="information-grid">
+
+    <div class="information-card">
+
+      <div class="information-icon">
+        1
+      </div>
+
+      <div>
+
+        <h3>
+          Upload
+        </h3>
+
+        <p>
+          Upload a CSV or XLSX file containing enterprise
+          access governance data.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="information-card">
+
+      <div class="information-icon">
+        2
+      </div>
+
+      <div>
+
+        <h3>
+          Validate
+        </h3>
+
+        <p>
+          The system detects the dataset type and validates
+          headers and individual records.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="information-card">
+
+      <div class="information-icon">
+        3
+      </div>
+
+      <div>
+
+        <h3>
+          Process
+        </h3>
+
+        <p>
+          Valid records are processed and persisted while
+          invalid or duplicate records are reported.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

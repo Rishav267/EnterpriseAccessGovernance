@@ -79,6 +79,12 @@ export const routes: Routes = [
       ).then(m => m.RiskManagementComponent)
   },
   {
+    path: 'imports',
+    loadComponent: () =>
+      import('./features/imports/imports.component')
+        .then(m => m.ImportsComponent)
+  },
+  {
     path: '**',
     redirectTo: 'dashboard'
   }
