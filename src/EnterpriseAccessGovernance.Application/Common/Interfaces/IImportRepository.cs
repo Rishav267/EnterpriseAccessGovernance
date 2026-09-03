@@ -17,11 +17,15 @@ public interface IImportRepository
         CancellationToken cancellationToken = default);
 
     Task<Department?> GetDepartmentByCodeAsync(
-    string departmentCode,
-    CancellationToken cancellationToken = default);
+        string departmentCode,
+        CancellationToken cancellationToken = default);
 
     Task<Employee?> GetEmployeeByEmployeeNumberAsync(
         string employeeNumber,
+        CancellationToken cancellationToken = default);
+
+    Task<Employee?> GetEmployeeByEmailAsync(
+        string email,
         CancellationToken cancellationToken = default);
 
     Task AddDepartmentAsync(
@@ -33,8 +37,8 @@ public interface IImportRepository
         CancellationToken cancellationToken = default);
 
     Task<EnterpriseApplication?> GetApplicationByNameAsync(
-    string applicationName,
-    CancellationToken cancellationToken = default);
+        string applicationName,
+        CancellationToken cancellationToken = default);
 
     Task<EnterpriseApplication?> GetApplicationByCodeAsync(
         string applicationCode,
@@ -45,17 +49,17 @@ public interface IImportRepository
         CancellationToken cancellationToken = default);
 
     Task<ApplicationRole?> GetRoleByCodeAsync(
-    Guid applicationId,
-    string roleCode,
-    CancellationToken cancellationToken = default);
+        Guid applicationId,
+        string roleCode,
+        CancellationToken cancellationToken = default);
 
     Task AddRoleAsync(
         ApplicationRole role,
         CancellationToken cancellationToken = default);
 
     Task<Permission?> GetPermissionByNameAsync(
-    string permissionName,
-    CancellationToken cancellationToken = default);
+        string permissionName,
+        CancellationToken cancellationToken = default);
 
     Task<Permission?> GetPermissionByCodeAsync(
         string permissionCode,
@@ -66,9 +70,9 @@ public interface IImportRepository
         CancellationToken cancellationToken = default);
 
     Task<ApplicationRole?> GetRoleByNameAsync(
-    Guid applicationId,
-    string roleName,
-    CancellationToken cancellationToken = default);
+        Guid applicationId,
+        string roleName,
+        CancellationToken cancellationToken = default);
 
     Task<RolePermission?> GetRolePermissionAsync(
         Guid applicationRoleId,
@@ -80,27 +84,27 @@ public interface IImportRepository
         CancellationToken cancellationToken = default);
 
     Task<RiskFinding?> GetRiskFindingAsync(
-    Guid employeeId,
-    string ruleCode,
-    CancellationToken cancellationToken = default);
+        Guid employeeId,
+        string ruleCode,
+        CancellationToken cancellationToken = default);
 
     Task AddRiskFindingAsync(
         RiskFinding riskFinding,
         CancellationToken cancellationToken = default);
 
     Task<AccessAssignment?> GetAccessAssignmentAsync(
-    Guid employeeId,
-    Guid applicationId,
-    Guid applicationRoleId,
-    CancellationToken cancellationToken = default);
+        Guid employeeId,
+        Guid applicationId,
+        Guid applicationRoleId,
+        CancellationToken cancellationToken = default);
 
     Task AddAccessAssignmentAsync(
         AccessAssignment accessAssignment,
         CancellationToken cancellationToken = default);
 
     Task AddLoginActivityAsync(
-    LoginActivity loginActivity,
-    CancellationToken cancellationToken = default);
+        LoginActivity loginActivity,
+        CancellationToken cancellationToken = default);
 
     Task SaveChangesAsync(
         CancellationToken cancellationToken = default);

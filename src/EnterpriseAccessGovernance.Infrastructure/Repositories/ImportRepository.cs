@@ -81,6 +81,17 @@ public sealed class ImportRepository : IImportRepository
                 cancellationToken);
     }
 
+    public Task<Employee?> GetEmployeeByEmailAsync(
+    string email,
+    CancellationToken cancellationToken = default)
+    {
+        return _dbContext.Employees
+            .AsNoTracking()
+            .FirstOrDefaultAsync(
+                x => x.Email == email,
+                cancellationToken);
+    }
+
     public async Task AddEmployeeAsync(
         Employee employee,
         CancellationToken cancellationToken = default)

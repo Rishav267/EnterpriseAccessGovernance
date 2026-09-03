@@ -35,6 +35,15 @@ public sealed class EmployeeImportProcessor
 
         var rowNumber = 1;
 
+        // Track values within the current file as well.
+        var employeeNumbersInFile =
+            new HashSet<string>(
+                StringComparer.OrdinalIgnoreCase);
+
+        var emailsInFile =
+            new HashSet<string>(
+                StringComparer.OrdinalIgnoreCase);
+
         foreach (var row in rows)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -74,6 +83,97 @@ public sealed class EmployeeImportProcessor
                 var departmentName =
                     row.Get(ImportField.Department)!;
 
+                employeeNumber =
+                    employeeNumber.Trim();
+
+                email =
+                    email.Trim()
+                        .ToLowerInvariant();
+
+                // =====================================================
+                // Duplicate Employee Number within uploaded file
+                // =====================================================
+
+                if (!employeeNumbersInFile.Add(employeeNumber))
+                {
+                    errors.Add(
+                        new ImportProcessingError
+                        {
+                            RowNumber = rowNumber,
+                            ErrorMessage =
+                                $"Employee '{employeeNumber}' appears more than once in the uploaded file."
+                        });
+
+                    continue;
+                }
+
+                // =====================================================
+                // Duplicate Email within uploaded file
+                // =====================================================
+
+                if (!emailsInFile.Add(email))
+                {
+                    errors.Add(
+                        new ImportProcessingError
+                        {
+                            RowNumber = rowNumber,
+                            ErrorMessage =
+                                $"Email '{email}' appears more than once in the uploaded file."
+                        });
+
+                    continue;
+                }
+
+                // =====================================================
+                // Existing Employee Number
+                // =====================================================
+
+                var existingEmployeeByNumber =
+                    await _importRepository
+                        .GetEmployeeByEmployeeNumberAsync(
+                            employeeNumber,
+                            cancellationToken);
+
+                if (existingEmployeeByNumber is not null)
+                {
+                    errors.Add(
+                        new ImportProcessingError
+                        {
+                            RowNumber = rowNumber,
+                            ErrorMessage =
+                                $"Employee '{employeeNumber}' already exists. Existing employee records are not updated by import."
+                        });
+
+                    continue;
+                }
+
+                // =====================================================
+                // Existing Email
+                // =====================================================
+
+                var existingEmployeeByEmail =
+                    await _importRepository
+                        .GetEmployeeByEmailAsync(
+                            email,
+                            cancellationToken);
+
+                if (existingEmployeeByEmail is not null)
+                {
+                    errors.Add(
+                        new ImportProcessingError
+                        {
+                            RowNumber = rowNumber,
+                            ErrorMessage =
+                                $"Email '{email}' is already associated with an existing employee. Existing employee records are not updated by import."
+                        });
+
+                    continue;
+                }
+
+                // =====================================================
+                // Department
+                // =====================================================
+
                 var department =
                     await _importRepository
                         .GetDepartmentByNameAsync(
@@ -98,39 +198,26 @@ public sealed class EmployeeImportProcessor
                             cancellationToken);
                 }
 
+                // =====================================================
+                // Employee
+                // =====================================================
+
                 var (firstName, lastName) =
                     SplitEmployeeName(employeeName);
 
-                var employee = await _importRepository
-                            .GetEmployeeByEmployeeNumberAsync(
-                                employeeNumber,
-                                cancellationToken);
-
-                if (employee is null)
-                {
-                    employee =
-                        Employee.Create(
-                            employeeNumber,
-                            firstName,
-                            lastName,
-                            email,
-                            EmploymentStatus.Active,
-                            department.Id);
-
-                    await _importRepository
-                        .AddEmployeeAsync(
-                            employee,
-                            cancellationToken);
-                }
-                else
-                {
-                    employee.UpdateDetails(
+                var employee =
+                    Employee.Create(
+                        employeeNumber,
                         firstName,
                         lastName,
                         email,
                         EmploymentStatus.Active,
                         department.Id);
-                }
+
+                await _importRepository
+                    .AddEmployeeAsync(
+                        employee,
+                        cancellationToken);
 
                 successfulRecords++;
             }
@@ -142,8 +229,7 @@ public sealed class EmployeeImportProcessor
                         RowNumber = rowNumber,
                         ErrorMessage =
                             exception.Message
-                    }
-                 );
+                    });
             }
         }
 
@@ -179,7 +265,8 @@ public sealed class EmployeeImportProcessor
                 nameParts[0]);
         }
 
-        var firstName = nameParts[0];
+        var firstName =
+            nameParts[0];
 
         var lastName =
             string.Join(
@@ -192,13 +279,15 @@ public sealed class EmployeeImportProcessor
     }
 
     private async Task<string> GenerateUniqueDepartmentCodeAsync(
-    string departmentName,
-    CancellationToken cancellationToken)
+        string departmentName,
+        CancellationToken cancellationToken)
     {
         var baseCode =
-            CreateDepartmentCode(departmentName);
+            CreateDepartmentCode(
+                departmentName);
 
-        var departmentCode = baseCode;
+        var departmentCode =
+            baseCode;
 
         var suffix = 1;
 
@@ -229,8 +318,9 @@ public sealed class EmployeeImportProcessor
         var code =
             string.Concat(
                 words.Select(
-                    word => char.ToUpperInvariant(
-                        word[0])));
+                    word =>
+                        char.ToUpperInvariant(
+                            word[0])));
 
         if (string.IsNullOrWhiteSpace(code))
         {
